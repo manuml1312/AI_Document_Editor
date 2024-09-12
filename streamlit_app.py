@@ -13,9 +13,12 @@ API_URL = 'https://api.openai.com/v1/chat/completions'
 def load_instructions(filename):
     """ Load editing instructions from a file. """
     # if os.path.exists(filename):
-    with open(filename, 'rb') as file:
-        return pickle.load(file)
-    # return "Default instructions if file doesn't exist."
+    try:
+        with open(filename, 'rb') as file:
+        x= pickle.load(file)
+        return x
+    except Exception as e:
+        return "Default instructions if file doesn't exist."
 
 # Save instructions to a file
 def save_instructions(data, filename):
