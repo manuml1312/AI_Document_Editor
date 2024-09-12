@@ -56,6 +56,7 @@ def process_document(filename, options):
     text = read_docx(filename)
     instructions = load_instructions(edit_config[options['edit_level']])
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in options if options[feature]])
+    st.write(combined_text)
     return process_text_with_api(text, combined_text) 
 
 #################################################################
