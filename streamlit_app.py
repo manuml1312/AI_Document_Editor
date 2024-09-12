@@ -26,7 +26,7 @@ def read_docx(file_path):
     return "\n".join([paragraph.text for paragraph in doc.paragraphs])
 
 def process_text_with_api(text, instructions):
-    global instructions
+    # global instructions
     messages = [
         {"role": "system", "content": instructions},
         {"role": "user", "content": text}
