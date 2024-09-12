@@ -56,7 +56,7 @@ def process_text_with_api(text, instructions):
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    instructions = load_instructions(edit_config[options])
+    instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
     # st.write(combined_text)
     return process_text_with_api(text, combined_text) 
@@ -64,9 +64,9 @@ def process_document(filename, options,report_features,edits):
 #################################################################
 # Define the path for instruction files
 edit_config = {
-    "Standard": 'standard.pkl',
-    "Developmental": 'developmental.pkl',
-    "ProofReading": 'proofreading.pkl'
+    "Standard": './standard.pkl',
+    "Developmental": './developmental.pkl',
+    "ProofReading": './proofreading.pkl'
 }
 # Report features for additional processing options
 report_features = {
@@ -83,10 +83,11 @@ st.title("Text Editor")
 
 edit_styles=['Standard','Developmental','ProofReading']
 style = st.selectbox("Select the type of editing", edit_styles)
+options=edit_config[style]
 
 uploaded_file=st.file_uploader("Upload the text document to process.",type=["docx","pdf","csv"],key='orig')
 edits = st.multiselect('Select required options:',report_features)
 
 if st.button('Edit Text'):
-    response=process_document(uploaded_file,style,report_features,edits)
+    response=process_document(uploaded_file,options,report_features,edits)
     st.write(response)
