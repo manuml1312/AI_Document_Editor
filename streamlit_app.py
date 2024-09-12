@@ -16,6 +16,7 @@ def load_instructions(filename):
     try:
         with open(filename, 'rb') as file:
             return pickle.load(io.BYTESIO(file))
+            st.write('file returned')
     except Exception as e:
         return "Default instructions if file doesn't exist."
 
