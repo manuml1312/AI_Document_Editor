@@ -7,7 +7,7 @@ import requests
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
-API_URL = 'https://api.openai.com/v1/engines/davinci-codex/completions'
+API_URL = 'https://api.openai.com/v1/chat/completions'
 
 # Load instructions from a file
 def load_instructions(filename):
