@@ -51,7 +51,7 @@ def process_text_with_api(text, instructions):
     }
     response = requests.post(API_URL, headers=headers, json=data)
     if response.status_code == 200:
-        return response #.json()['choices'][0]['text']
+        return response.json()#['choices'][0]['text']
     else:
         return "An error occurred: " + response #.text
 
