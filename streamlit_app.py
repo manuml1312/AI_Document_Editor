@@ -64,9 +64,9 @@ def process_document(filename, options,report_features,edits):
 #################################################################
 # Define the path for instruction files
 edit_config = {
-    "Standard": './standard.pkl',
-    "Developmental": './developmental.pkl',
-    "ProofReading": './proofreading.pkl'
+    "Standard": 'standard.pkl',
+    "Developmental": 'developmental.pkl',
+    "ProofReading": 'proofreading.pkl'
 }
 # Report features for additional processing options
 report_features = {
