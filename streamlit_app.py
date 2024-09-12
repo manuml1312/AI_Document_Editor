@@ -54,7 +54,7 @@ def process_text_with_api(text, instructions):
 def process_document(filename, options):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    instructions = load_instructions(edit_config[options['edit_level']])
+    instructions = load_instructions(edit_config[options])
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in options if options[feature]])
     st.write(combined_text)
     return process_text_with_api(text, combined_text) 
@@ -86,5 +86,5 @@ uploaded_file=st.file_uploader("Upload the text document to process.",type=["doc
 edits = st.multiselect('Select required options:',report_features)
 
 if st.button('Edit Text'):
-    response=process_document(uploaded_file,style)
+    response=process_document(uploaded_file,edits)
     st.write(response)
