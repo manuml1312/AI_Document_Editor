@@ -2,6 +2,8 @@ import streamlit as st
 from docx import Document
 from openai import OpenAI
 import os
+import pickle
+import requests
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
