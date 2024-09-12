@@ -1,4 +1,6 @@
 import streamlit as st
+from docx import Document
+
 # from openai import OpenAI
 
 edit_styles=['Basic','Standard','Pro']
@@ -13,4 +15,10 @@ uploaded_file=st.file_uploader("Upload the text document to process.",type=["doc
 
 edits = st.multiselect('Select three known variables:',['A','B','C'])
 
-st.button('Edit Text')
+if st.button('Edit Text'):
+  document = Document(uploaded_file)
+  text=''
+  for i in document.paragraphs:
+    text+=i.text
+  st.write(text)
+
