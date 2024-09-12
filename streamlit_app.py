@@ -51,9 +51,9 @@ def process_text_with_api(text, instructions):
     }
     response = requests.post(API_URL, headers=headers, json=data)
     if response.status_code == 200:
-        return response.json()['choices'][0]['text']
+        return response #.json()['choices'][0]['text']
     else:
-        return "An error occurred: " + response.text
+        return "An error occurred: " + response #.text
 
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
