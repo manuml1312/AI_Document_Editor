@@ -1,5 +1,7 @@
 import streamlit as st
 from docx import Document
+from openai import OpenAI
+
 
 # from openai import OpenAI
 your_api_key=st.secrets.api_key
