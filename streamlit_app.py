@@ -15,8 +15,7 @@ def load_instructions(filename):
     # if os.path.exists(filename):
     try:
         with open(filename, 'rb') as file:
-        x= pickle.load(file)
-        return x
+            return pickle.load(file)
     except Exception as e:
         return "Default instructions if file doesn't exist."
 
