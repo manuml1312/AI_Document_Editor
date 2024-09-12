@@ -37,7 +37,7 @@ def process_text_with_api(text, instructions):
         'Authorization': f'Bearer {API_KEY}'
     }
     data = {
-        'model': 'gpt-4-turbo,
+        'model': 'gpt-4-turbo',
         'messages':messages,
         'max_tokens': 1024,
         'temperature': 0.7,
