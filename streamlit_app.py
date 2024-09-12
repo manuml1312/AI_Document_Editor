@@ -4,7 +4,7 @@ from openai import OpenAI
 import os
 import pickle
 import requests
-
+import io
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
 API_URL = 'https://api.openai.com/v1/chat/completions'
@@ -15,7 +15,7 @@ def load_instructions(filename):
     # if os.path.exists(filename):
     try:
         with open(filename, 'rb') as file:
-            return pickle.load(file)
+            return pickle.load(io.BYTESIO(file))
     except Exception as e:
         return "Default instructions if file doesn't exist."
 
@@ -53,7 +53,7 @@ def process_text_with_api(text, instructions):
     if response.status_code == 200:
         return response.json()['choices'][0]['message']['content']
     else:
-        return "An error occurred: " + response #.text
+        return "An error occurred: " + response.text
 
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
@@ -70,6 +70,7 @@ edit_config = {
     "Developmental": './developmental.pkl',
     "ProofReading": './proofreading.pkl'
 }
+
 # Report features for additional processing options
 report_features = {
     "aspects of research": """State the novelty, contributions, relevance, findings, practical implications, future scope of research and limitations of this research (30-50 words for each point).""",
