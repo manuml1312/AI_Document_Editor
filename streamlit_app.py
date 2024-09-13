@@ -14,7 +14,8 @@ def load_instructions(file_path):
     try:
         # Open the pickle file from the relative path
         with open(file_path, "r") as f:
-            data = pickle.load(f)
+            # data = pickle.load(f)
+            data=f.read()
         return data
     except FileNotFoundError:
         st.error(f"File '{file_path}' not found.")
@@ -84,7 +85,7 @@ def process_document(filename, options,report_features,edits):
 # Define the path for instruction files
 edit_config = {
     "Standard": './standard.pkl',
-    "Developmental": './developmental.pkl',
+    "Developmental": './developmental.txt',
     "ProofReading": './proofreading.pkl'
 }
 
