@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Editing Service</title>
+</head>
+<body>
+    <h1>Upload Document for Editing</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file"><br><br>
+        <select name="edit_level">
+            <option value="standard">Standard Editing</option>
+            <option value="developmental">Developmental Editing</option>
+            <option value="light">Light & Proofreading</option>
+        </select><br><br>
+        <input type="checkbox" name="generate_report"> Generate Report<br>
+        <input type="checkbox" name="research_gaps"> Research Gaps<br>
+        <input type="checkbox" name="synopsis"> Synopsis<br>
+        <input type="checkbox" name="highlights"> Highlights<br>
+        <input type="checkbox" name="title"> Title<br>
+        <input type="checkbox" name="keywords"> Keywords<br>
+        <input type="checkbox" name="cover_letter"> Cover Letter<br><br>
+        <button type="submit">Upload and Process</button>
+    </form>
+
+    <h1>Or Direct Text Input</h1>
+    <form action="/process_text" method="post">
+        <textarea name="text_input" rows="10" cols="50"></textarea><br><br>
+        <button type="submit">Process Text</button>
+    </form>
+    
+    <p>Go to <a href="/reseditext">Direct Chatbox (ResEdiText)</a> for interactive editing.</p>
+</body>
+</html>
+

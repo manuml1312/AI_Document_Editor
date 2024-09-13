@@ -1,4 +1,4 @@
-Edit the text provided based on following instructions:
+"""Edit the text provided based on following instructions:
 Scope of Edit: Proofreading and light editing for language, structure, and consistency.
 Language Tone: Academic and Formal with flow between the sentences and structure throughout the paragraphs.
 Limitations: Do NOT conduct unnecessary changes or alter the original length. Do NOT rewrite or rephrase excessively beyond grammatical correctness and prose. Strict rules for formality, NO colloquial terms. Do NOT change/reorder the in-text citation format. Do NOT spell out the abbreviations. You can use first-person collective pronouns such as "we," but DO NOT use "our" or "us".
@@ -8,4 +8,4 @@ Grammar: Ensure that all sentences adhere to grammatical norms, including subjec
 Lexicon: Replace incorrect or unclear words with more appropriate terms to enhance clarity without altering the text's meaning.
 Spelling: Correct all spelling mistakes to ensure accuracy.
 Punctuation: Fix punctuation errors, ensuring the correct use of commas, periods, semicolons, and other punctuation marks to improve readability.
-Typos: Identify and correct typographical errors throughout the text.
+Typos: Identify and correct typographical errors throughout the text."""
