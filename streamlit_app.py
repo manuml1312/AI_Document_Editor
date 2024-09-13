@@ -10,16 +10,28 @@ API_KEY=st.secrets.api_key
 API_URL = 'https://api.openai.com/v1/chat/completions'
 
 # Load instructions from a file
-def load_instructions(filename):
+def load_instructions(file_path):
+    try:
+        # Open the pickle file from the relative path
+        with open(file_path, "rb") as f:
+            data = pickle.load(f)
+        return data
+    except FileNotFoundError:
+        st.error(f"File '{file_path}' not found.")
+    except pickle.UnpicklingError as e:
+        st.error(f"Error loading pickle file: {e}")
+    except Exception as e:
+        st.error(f"An unexpected error occurred: {e}")
+        return None
     """ Load editing instructions from a file. """
     # if os.path.exists(filename):
-    try:
-        with open(filename, 'rb') as file:
-            return pickle.load(io.BytesIO(filename))
-            st.write('file returned')
-    except Exception as e:
-        st.write(e)
-        return "Default instructions if file doesn't exist."
+    # try:
+    #     with open(filename, 'rb') as file:
+    #         return pickle.load(io.BytesIO(filename))
+    #         st.write('file returned')
+    # except Exception as e:
+    #     st.write(e)
+    #     return "Default instructions if file doesn't exist."
 
 # Save instructions to a file
 def save_instructions(data, filename):
