@@ -15,7 +15,7 @@ def load_instructions(filename):
     # if os.path.exists(filename):
     try:
         with open(filename, 'rb') as file:
-            return pickle.load(io.BytesIO(file))
+            return pickle.load(io.BytesIO(filename))
             st.write('file returned')
     except Exception as e:
         st.write(e)
