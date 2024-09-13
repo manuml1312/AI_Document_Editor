@@ -11,30 +11,14 @@ API_URL = 'https://api.openai.com/v1/chat/completions'
 
 # Load instructions from a file
 def load_instructions(file_path):
-    try:
-        # Open the pickle file from the relative path
-        with open(file_path, "r") as f:
-            # data = pickle.load(f)
-            data=f.read()
-        return data
-    except FileNotFoundError:
-        st.error(f"File '{file_path}' not found.")
-        return "Default instructions if file doesn't exist."
-    except pickle.UnpicklingError as e:
-        st.error(f"Error loading pickle file: {e}")
-        return "Default instructions if file doesn't exist."
-    except Exception as e:
-        st.error(f"An unexpected error occurred: {e}")
-        return "Default instructions if file doesn't exist."
     """ Load editing instructions from a file. """
-    # if os.path.exists(filename):
-    # try:
-    #     with open(filename, 'rb') as file:
-    #         return pickle.load(io.BytesIO(filename))
-    #         st.write('file returned')
-    # except Exception as e:
-    #     st.write(e)
-    #     return "Default instructions if file doesn't exist."
+    try:
+        with open(filename, 'r') as file:
+            return file.read()
+            st.write('file returned')
+    except Exception as e:
+        st.error('An error occcured:{e}')
+        return "Default instructions if file doesn't exist."
 
 # Save instructions to a file
 def save_instructions(data, filename):
@@ -77,9 +61,7 @@ def process_document(filename, options,report_features,edits):
     text = read_docx(filename)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return combined_text
-    # st.write(combined_text)
-    # return process_text_with_api(text, combined_text) 
+    return process_text_with_api(text, combined_text) 
 
 #################################################################
 # Define the path for instruction files
