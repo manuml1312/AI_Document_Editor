@@ -18,11 +18,13 @@ def load_instructions(file_path):
         return data
     except FileNotFoundError:
         st.error(f"File '{file_path}' not found.")
+        return "Default instructions if file doesn't exist."
     except pickle.UnpicklingError as e:
         st.error(f"Error loading pickle file: {e}")
+        return "Default instructions if file doesn't exist."
     except Exception as e:
         st.error(f"An unexpected error occurred: {e}")
-        return None
+        return "Default instructions if file doesn't exist."
     """ Load editing instructions from a file. """
     # if os.path.exists(filename):
     # try:
