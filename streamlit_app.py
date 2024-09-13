@@ -14,7 +14,8 @@ def load_instructions(file_path):
     """ Load editing instructions from a file. """
     try:
         with open(filename, 'r') as file:
-            return file.read()
+            data = file.read()
+            return data
             st.write('file returned')
     except Exception as e:
         st.error('An error occcured:{e}')
