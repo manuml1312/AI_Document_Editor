@@ -84,9 +84,9 @@ def process_document(filename, options,report_features,edits):
 #################################################################
 # Define the path for instruction files
 edit_config = {
-    "Standard": './standard.pkl',
+    "Standard": './standard.txt',
     "Developmental": './developmental.txt',
-    "ProofReading": './proofreading.pkl'
+    "ProofReading": './proofreading.txt'
 }
 
 # Report features for additional processing options
@@ -107,7 +107,7 @@ style = st.selectbox("Select the type of editing", edit_styles)
 options=edit_config[style]
 
 uploaded_file=st.file_uploader("Upload the text document to process.",type=["docx","pdf","csv"],key='orig')
-edits = st.multiselect('Select required options:',report_features)
+edits = st.multiselect('Select required features:',report_features)
 
 if st.button('Edit Text'):
     response=process_document(uploaded_file,options,report_features,edits)
