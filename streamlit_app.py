@@ -10,7 +10,7 @@ API_KEY=st.secrets.api_key
 API_URL = 'https://api.openai.com/v1/chat/completions'
 
 # Load instructions from a file
-def load_instructions(file_path):
+def load_instructions(filename):
     """ Load editing instructions from a file. """
     try:
         with open(filename, 'r') as file:
