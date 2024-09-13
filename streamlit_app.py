@@ -62,8 +62,8 @@ def process_document(filename, options,report_features,edits):
     text = read_docx(filename)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return combined_text
-    # return process_text_with_api(text, combined_text) 
+    # return combined_text
+    return process_text_with_api(text, combined_text) 
 
 #################################################################
 # Define the path for instruction files
