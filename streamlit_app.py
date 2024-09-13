@@ -13,7 +13,7 @@ API_URL = 'https://api.openai.com/v1/chat/completions'
 def load_instructions(file_path):
     try:
         # Open the pickle file from the relative path
-        with open(file_path, "rb") as f:
+        with open(file_path, "r") as f:
             data = pickle.load(f)
         return data
     except FileNotFoundError:
