@@ -62,14 +62,14 @@ def process_document(filename, options,report_features,edits):
     text = read_docx(filename)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    # return combined_text
-    return process_text_with_api(text, combined_text) 
+    return combined_text
+    # return process_text_with_api(text, combined_text) 
 
 def create_docx(text):
     doc = Document()
     doc.add_paragraph(text)
     # Save the document to a BytesIO object
-    buffer = BytesIO()
+    buffer = io.BytesIO()
     doc.save(buffer)
     buffer.seek(0)
     return buffer
