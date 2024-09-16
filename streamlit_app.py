@@ -117,7 +117,7 @@ report_features = {
 st.title("Text Editor")
 
 st.cache_data
-nltk.download('punkt')
+nltk.download('punkt_tab')
 
 edit_styles=['Standard','Developmental','ProofReading']
 style = st.selectbox("Select the type of editing", edit_styles)
