@@ -58,13 +58,13 @@ def process_text_with_api(text, instructions,max_tokens):
     else:
         return "An error occurred: " + response.text
 
-def process_document(filename, options,report_features,edits):
+def process_document(filename, options,report_features,edits,max_tokens):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
     return combined_text
-    # return process_text_with_api(text, combined_text) 
+    # return process_text_with_api(text, combined_text,max_tokens) 
 
 def create_docx(text):
     doc = Document()
