@@ -65,6 +65,14 @@ def process_document(filename, options,report_features,edits):
     # return combined_text
     return process_text_with_api(text, combined_text) 
 
+def create_docx(text):
+    doc = Document()
+    doc.add_paragraph(text)
+    # Save the document to a BytesIO object
+    buffer = BytesIO()
+    doc.save(buffer)
+    buffer.seek(0)
+    return buffer
 #################################################################
 # Define the path for instruction files
 edit_config = {
@@ -96,3 +104,10 @@ edits = st.multiselect('Select required features:',report_features)
 if st.button('Edit Text'):
     response=process_document(uploaded_file,options,report_features,edits)
     st.write(response)
+    docx_file = create_docx(response)
+    st.download_button(
+        label="Download as DOCX",
+        data=docx_file,
+        file_name="output.docx",
+        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
