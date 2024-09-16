@@ -26,6 +26,7 @@ def text_break(text):
             groups.append(current_text)
             current_text=sentence+' '
             current_len=word_len
+    groups.append(current_text)
     return groups
 
 # Load instructions from a file
