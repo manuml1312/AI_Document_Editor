@@ -53,9 +53,7 @@ def read_docx(file_path):
 
 def process_text_with_api(groups, instructions,max_tokens):
     final_text=''
-    st.write("Here in loop")
     for i in groups:
-        st.write(i)
         if max_tokens==0.00:
             max_tokens=1024
         messages = [
