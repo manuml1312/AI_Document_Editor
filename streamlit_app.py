@@ -31,8 +31,9 @@ def read_docx(file_path):
     doc = Document(file_path)
     return "\n".join([paragraph.text for paragraph in doc.paragraphs])
 
-def process_text_with_api(text, instructions):
-    # global instructions
+def process_text_with_api(text, instructions,max_tokens):
+    if not max_tokens or max_tokens==0:
+        max_tokens=1024
     messages = [
         {"role": "system", "content": instructions},
         {"role": "user", "content": text}
@@ -45,7 +46,7 @@ def process_text_with_api(text, instructions):
     data = {
         'model': 'gpt-4-turbo',
         'messages':messages,
-        'max_tokens': 1024,
+        'max_tokens': int(max_tokens),
         'temperature': 0.7,
         'top_p': 1,
         'frequency_penalty': 0,
@@ -100,9 +101,9 @@ options=edit_config[style]
 
 uploaded_file=st.file_uploader("Upload the text document to process.",type=["docx","pdf","csv"],key='orig')
 edits = st.multiselect('Select required features:',report_features)
-
+max_tokens=st.number_input("Insert the maximum number of tokens")
 if st.button('Edit Text'):
-    response=process_document(uploaded_file,options,report_features,edits)
+    response=process_document(uploaded_file,options,report_features,edits,max_tokens)
     st.write(response)
     docx_file = create_docx(response)
     st.download_button(
