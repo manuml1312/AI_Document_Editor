@@ -51,6 +51,7 @@ def read_docx(file_path):
     return "\n".join([paragraph.text for paragraph in doc.paragraphs])
 
 def process_text_with_api(groups, instructions,max_tokens):
+    final_text=''
     for i in groups:
         if not max_tokens or max_tokens==0:
             max_tokens=1024
@@ -74,9 +75,11 @@ def process_text_with_api(groups, instructions,max_tokens):
         }
         response = requests.post(API_URL, headers=headers, json=data)
         if response.status_code == 200:
-            return response.json()['choices'][0]['message']['content']
+            final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+            # return response.json()['choices'][0]['message']['content']
         else:
             return "An error occurred: " + response.text
+    return final_text
 
 def process_document(filename, options,report_features,edits,max_tokens):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
