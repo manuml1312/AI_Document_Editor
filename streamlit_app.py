@@ -79,6 +79,7 @@ def process_text_with_api(groups, instructions,max_tokens):
             # return response.json()['choices'][0]['message']['content']
         else:
             return "An error occurred: " + response.text
+            st.write("Errorrrr!!!!!!!!!!")
     return final_text
 
 def process_document(filename, options,report_features,edits,max_tokens):
