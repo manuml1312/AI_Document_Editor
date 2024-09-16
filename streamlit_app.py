@@ -54,7 +54,8 @@ def process_text_with_api(groups, instructions,max_tokens):
     final_text=''
     st.write("Here in loop")
     for i in groups:
-        if not max_tokens or max_tokens==0:
+        st.write(i)
+        if max_tokens==0.00:
             max_tokens=1024
         messages = [
             {"role": "system", "content": instructions},
