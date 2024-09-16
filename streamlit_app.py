@@ -5,9 +5,28 @@ import os
 import pickle
 import requests
 import io
+import nltk
+
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
 API_URL = 'https://api.openai.com/v1/chat/completions'
+
+#creating text windows
+
+def text_break(text):
+    sentences=nltk.sent_tokenize(text)
+    current_len=0
+    current_text=''
+    groups=[]
+    for sentence in sentences:
+        word_len=len(nltk.word_tokenize(sentence))
+        if current_len+word_len<=300:
+            current_text+=sentence+' '
+        else:
+            groups.append(current_text)
+            current_text=sentence+' '
+            current_len=word_len
+    return groups
 
 # Load instructions from a file
 def load_instructions(filename):
@@ -31,40 +50,42 @@ def read_docx(file_path):
     doc = Document(file_path)
     return "\n".join([paragraph.text for paragraph in doc.paragraphs])
 
-def process_text_with_api(text, instructions,max_tokens):
-    if not max_tokens or max_tokens==0:
-        max_tokens=1024
-    messages = [
-        {"role": "system", "content": instructions},
-        {"role": "user", "content": text}
-    ]
-    """ Call the OpenAI API with the extracted text and instructions. """
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {API_KEY}'
-    }
-    data = {
-        'model': 'gpt-4-turbo',
-        'messages':messages,
-        'max_tokens': int(max_tokens),
-        'temperature': 0.7,
-        'top_p': 1,
-        'frequency_penalty': 0,
-        'presence_penalty': 0
-    }
-    response = requests.post(API_URL, headers=headers, json=data)
-    if response.status_code == 200:
-        return response.json()['choices'][0]['message']['content']
-    else:
-        return "An error occurred: " + response.text
+def process_text_with_api(groups, instructions,max_tokens):
+    for i in groups:
+        if not max_tokens or max_tokens==0:
+            max_tokens=1024
+        messages = [
+            {"role": "system", "content": instructions},
+            {"role": "user", "content": i}
+        ]
+        """ Call the OpenAI API with the extracted text and instructions. """
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {API_KEY}'
+        }
+        data = {
+            'model': 'gpt-4-turbo',
+            'messages':messages,
+            'max_tokens': int(max_tokens),
+            'temperature': 0.7,
+            'top_p': 1,
+            'frequency_penalty': 0,
+            'presence_penalty': 0
+        }
+        response = requests.post(API_URL, headers=headers, json=data)
+        if response.status_code == 200:
+            return response.json()['choices'][0]['message']['content']
+        else:
+            return "An error occurred: " + response.text
 
 def process_document(filename, options,report_features,edits,max_tokens):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
+    groups=text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
     return combined_text
-    # return process_text_with_api(text, combined_text,max_tokens) 
+    # return process_text_with_api(groups, combined_text,max_tokens) 
 
 def create_docx(text):
     doc = Document()
@@ -94,6 +115,9 @@ report_features = {
 }
 # Streamlit UI
 st.title("Text Editor")
+
+st.cache_data
+nltk.download('punkt')
 
 edit_styles=['Standard','Developmental','ProofReading']
 style = st.selectbox("Select the type of editing", edit_styles)
