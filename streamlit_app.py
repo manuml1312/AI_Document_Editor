@@ -57,10 +57,12 @@ def process_text_with_api(groups, instructions):
         messages = [
             {"role": "system", "content": instructions},
             {"role":"user","content":f"The context for the given text is:{context}"},
-            {"role": "user", "content": i},
+            {"role": "user", "content": i}
         ]
-        messages_sum = [{"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
-             {"role":"user","content":i}]
+        messages_sum = [
+            {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
+             {"role":"user","content":i}
+        ]
             
         """ Call the OpenAI API with the extracted text and instructions. """
         headers = {
@@ -76,7 +78,11 @@ def process_text_with_api(groups, instructions):
             'frequency_penalty': 0,
             'presence_penalty': 0
         }
-        data_sum = {'model':'gpt-4-turbo','messages':messages_sum,'max_tokens':250}
+        data_sum = {
+            'model':'gpt-4-turbo',
+            'messages':messages_sum,
+            'max_tokens':250
+        }
         ############################################
         response = requests.post(API_URL, headers=headers, json=data)
         if response.status_code == 200:
