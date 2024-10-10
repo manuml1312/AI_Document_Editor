@@ -59,7 +59,7 @@ def process_text_with_api(groups, instructions):
     for i in groups:
         messages = [
             {"role": "system", "content": instructions},
-            {"role":"user","content":"The context for the given text is: "+context},
+            {"role":"user","content":"The context for the given text is: "+final_text},
             {"role": "user", "content": i}
         ]
         messages_sum = [
@@ -81,25 +81,26 @@ def process_text_with_api(groups, instructions):
             'frequency_penalty': 0,
             'presence_penalty': 0
         }
-        data_sum = {
-            'model':'gpt-4-turbo',
-            'messages':messages_sum,
-            'max_tokens':
-        }
+        # data_sum = {
+        #     'model':'gpt-4-turbo',
+        #     'messages':messages_sum,
+        #     'max_tokens':
+        # }
         ############################################
         response = requests.post(API_URL, headers=headers, json=data)
         if response.status_code == 200:
             final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-        else:
-            return "An error occurred: " + response.text
-            st.write("Errorrrr!!!!!!!!!!")
-        ############################
-        response = requests.post(API_URL, headers=headers, json=data_sum)
-        if response.status_code == 200:
             context+=str(response.json()['choices'][0]['message']['content'])+' '
         else:
             return "An error occurred: " + response.text
             st.write("Errorrrr!!!!!!!!!!")
+        ############################
+        # response = requests.post(API_URL, headers=headers, json=data_sum)
+        # if response.status_code == 200:
+        #     context+=str(response.json()['choices'][0]['message']['content'])+' '
+        # else:
+        #     return "An error occurred: " + response.text
+        #     st.write("Errorrrr!!!!!!!!!!")
     return final_text
 
 def process_document(filename, options,report_features,edits):
