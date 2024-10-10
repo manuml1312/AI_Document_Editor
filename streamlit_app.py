@@ -59,10 +59,9 @@ def process_text_with_api(groups, instructions):
             {"role":"user","content":f"The context for the given text is:{context}"},
             {"role": "user", "content": i},
         ]
-        messages_sum = [
-            {"role":"system","content":'Summarize the given text.Retain the important details while doing so"},
-             {"role":"user","content":i},
-        ]
+        messages_sum = [{"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
+             {"role":"user","content":i}]
+            
         """ Call the OpenAI API with the extracted text and instructions. """
         headers = {
             'Content-Type': 'application/json',
