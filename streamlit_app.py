@@ -56,7 +56,7 @@ def process_text_with_api(groups, instructions):
     for i in groups:
         messages = [
             {"role": "system", "content": instructions},
-            {"role":"user","content":f"The context for the given text is:{context}"
+            {"role":"user","content":f"The context for the given text is:{context}"},
             {"role": "user", "content": i}
         ]
         messages_sum = [
