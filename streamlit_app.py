@@ -20,7 +20,7 @@ def text_break(text):
     groups=[]
     for sentence in sentences:
         word_len=len(nltk.word_tokenize(sentence))
-        if current_len+word_len<=300:
+        if current_len+word_len<=350:
             current_text+=sentence+' '
         else:
             groups.append(current_text)
@@ -76,7 +76,7 @@ def process_text_with_api(groups, instructions):
             'model': 'gpt-4-turbo',
             'messages':messages,
             'max_tokens': 4096,
-            'temperature': 0.8,
+            'temperature': 0.1,
             'top_p': 1,
             'frequency_penalty': 0,
             'presence_penalty': 0
@@ -106,10 +106,10 @@ def process_text_with_api(groups, instructions):
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    # groups=text_break(text)
+    groups=text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(text, combined_text) 
+    return process_text_with_api(groups, combined_text) 
 
 def create_docx(text):
     doc = Document()
