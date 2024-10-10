@@ -94,13 +94,13 @@ def process_text_with_api(groups, instructions):
             st.write("Errorrrr!!!!!!!!!!")
     return final_text
 
-def process_document(filename, options,report_features,edits,max_tokens):
+def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
     groups=text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(groups, combined_text,max_tokens) 
+    return process_text_with_api(groups, combined_text) 
 
 def create_docx(text):
     doc = Document()
@@ -140,9 +140,9 @@ options=edit_config[style]
 
 uploaded_file=st.file_uploader("Upload the text document to process.",type=["docx","pdf","csv"],key='orig')
 edits = st.multiselect('Select required features:',report_features)
-max_tokens=st.number_input("Insert the maximum number of tokens")
+# max_tokens=st.number_input("Insert the maximum number of tokens")
 if st.button('Edit Text'):
-    response=process_document(uploaded_file,options,report_features,edits,max_tokens)
+    response=process_document(uploaded_file,options,report_features,edits)
     st.write(response)
     docx_file = create_docx(response)
     st.download_button(
