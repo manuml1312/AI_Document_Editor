@@ -76,16 +76,16 @@ def process_text_with_api(groups, instructions):
             'model': 'gpt-4-turbo',
             'messages':messages,
             'max_tokens': 4096,
-            'temperature': 0.5,
+            'temperature': 0.8,
             'top_p': 1,
             'frequency_penalty': 0,
             'presence_penalty': 0
         }
-        # data_sum = {
-        #     'model':'gpt-4-turbo',
-        #     'messages':messages_sum,
-        #     'max_tokens':
-        # }
+        data_sum = {
+            'model':'gpt-4-turbo',
+            'messages':messages_sum,
+            'max_tokens':
+        }
         ############################################
         response = requests.post(API_URL, headers=headers, json=data)
         if response.status_code == 200:
