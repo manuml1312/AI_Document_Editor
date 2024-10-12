@@ -55,10 +55,10 @@ def read_docx(file_path):
     # return text
 
 def process_text_with_api(groups, instructions):
+    st.write(groups)
     context=''
     final_text=''
     for i in range(len(groups)):
-        if i!=0:
             messages = [
                 {"role": "system", "content": instructions+ "/n Do not eliminate any information from the provided text and just perform as instructed"},
                 {"role": "user", "content": groups[i]}
