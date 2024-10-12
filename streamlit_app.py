@@ -57,11 +57,11 @@ def read_docx(file_path):
 def process_text_with_api(groups, instructions):
     context=''
     final_text=''
-    for i in groups:
-        if i!='Discussion':
+    for i in range(len(groups)):
+        if i!=0:
             messages = [
                 {"role": "system", "content": instructions+ "/nDo not eliminate any information from the provided text and just perform as instructed"},
-                {"role": "user", "content": i}
+                {"role": "user", "content": groups[i]}
             ]
             messages_sum = [
                 {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
@@ -87,7 +87,7 @@ def process_text_with_api(groups, instructions):
                 'messages':messages_sum
             }
             ############################################
-            final_text+=i
+            final_text+=groups[i]
             # response = requests.post(API_URL, headers=headers, json=data)
             # if response.status_code == 200:
             #     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
