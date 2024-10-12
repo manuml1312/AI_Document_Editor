@@ -59,7 +59,7 @@ def process_text_with_api(groups, instructions):
     final_text=''
     for i in groups:
         messages = [
-            {"role": "system", "content": instructions+ f"Do not eliminate any information from the provided text and just perform as instructed"},
+            {"role": "system", "content": instructions+ "/nDo not eliminate any information from the provided text and just perform as instructed"},
             {"role": "user", "content": i}
         ]
         messages_sum = [
@@ -76,7 +76,7 @@ def process_text_with_api(groups, instructions):
             'model': 'gpt-4-turbo',
             'messages':messages,
             'max_tokens': 4096,
-            'temperature': 0.1,
+            'temperature': 0.3,
             'top_p': 1,
             'frequency_penalty': 0,
             'presence_penalty': 0
