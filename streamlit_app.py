@@ -24,7 +24,7 @@ def text_break(text):
             current_len+=word_len
             current_text+=sentence+' '
         else:
-            groups.append(current_text)
+            groups.append(current_text.strip())
             current_text=''
             current_len=0
     groups.append(current_text)
@@ -64,7 +64,7 @@ def process_text_with_api(groups, instructions):
                 {"role": "system", "content": instructions+ "/n Do not eliminate any information from the provided text and just perform as instructed"},
                 {"role": "user", "content": groups[i]}
             ]
-            st.write(messages)
+            # st.write(messages)
             messages_sum = [
                 {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
                  {"role":"user","content":i}
@@ -89,16 +89,14 @@ def process_text_with_api(groups, instructions):
                 'messages':messages_sum
             }
             ############################################
-            st.write(groups[i])
-            st.write("\n\n")
-            # final_text+=groups[i]
-            # response = requests.post(API_URL, headers=headers, json=data)
-            # if response.status_code == 200:
-            #     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-            #     context+=str(response.json()['choices'][0]['message']['content'])+' '
-            # else:
-            #     return "An error occurred: " + response.text
-            #     st.write("Errorrrr!!!!!!!!!!")
+
+            response = requests.post(API_URL, headers=headers, json=data)
+            if response.status_code == 200:
+                final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+                context+=str(response.json()['choices'][0]['message']['content'])+' '
+            else:
+                return "An error occurred: " + response.text
+                st.write("Errorrrr!!!!!!!!!!")
             ############################
             # response = requests.post(API_URL, headers=headers, json=data_sum)
             # if response.status_code == 200:
@@ -106,7 +104,7 @@ def process_text_with_api(groups, instructions):
             # else:
             #     return "An error occurred: " + response.text
             #     st.write("Errorrrr!!!!!!!!!!")
-            return final_text
+    return final_text
 
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
