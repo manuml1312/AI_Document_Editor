@@ -89,7 +89,7 @@ def process_text_with_api(groups, instructions):
             }
             ############################################
             st.write(groups[i])
-            final_text+=groups[i]
+            # final_text+=groups[i]
             # response = requests.post(API_URL, headers=headers, json=data)
             # if response.status_code == 200:
             #     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
