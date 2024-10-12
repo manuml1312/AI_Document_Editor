@@ -49,10 +49,10 @@ def save_instructions(data, filename):
 def read_docx(file_path):
     """ Extract text from DOCX file. """
     doc = Document(file_path)
-    # return "\n".join([paragraph.text for paragraph in doc.paragraphs])
-    text=[paragraph.text for paragraph in doc.paragraphs]
-    st.write(text)
-    return text
+    return "\n".join([paragraph.text for paragraph in doc.paragraphs])
+    # text=[paragraph.text for paragraph in doc.paragraphs]
+    # st.write(text)
+    # return text
 
 def process_text_with_api(groups, instructions):
     context=''
@@ -108,10 +108,10 @@ def process_text_with_api(groups, instructions):
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    ##################################### 
+    ##################################### groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(text, combined_text) 
+    return process_text_with_api(groups, combined_text) 
 
 def create_docx(text):
     doc = Document()
