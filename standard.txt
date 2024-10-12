@@ -1,4 +1,4 @@
-Edit the text provided based on following instructions:
+Edit the text provided based on following instructions without eliminating any information:
 Scope of Edit: Structural editing for language, grammar, and readability.
 Language Tone: Academic and Formal with structure and flow between the sentences. Formal native tone for scholarly communication.
 Limitations: Do not conduct excessive or unnecessary changes. Do not add any information other than that presented in the text. Do not delete any information. Preserve all content. Do not rewrite or rephrase excessively beyond grammatical correctness. Strict rules for formality, no colloquial terms. Do not change the in-text citation format. Preserve all proper nouns, readings, physical conditions such as temperature, time, and molarity, frequency. Do not spell out the abbreviations or chemical names, i.e., retain chemical names as-is in the symbol form. You can use first-person collective pronouns such as "we," but not "our" or "us".
