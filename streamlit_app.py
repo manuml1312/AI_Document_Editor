@@ -104,7 +104,7 @@ def process_text_with_api(groups, instructions):
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    ##################################### groups=text_break(text)
+    ##################################### 
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
     return process_text_with_api(text, combined_text) 
