@@ -84,7 +84,6 @@ def process_text_with_api(groups, instructions):
         data_sum = {
             'model':'gpt-4-turbo',
             'messages':messages_sum,
-            'max_tokens':
         }
         ############################################
         response = requests.post(API_URL, headers=headers, json=data)
