@@ -56,7 +56,6 @@ def read_docx(file_path):
     # return text
 
 def process_text_with_api(groups, instructions):
-    # st.write(groups)
     context=''
     final_text=''
     for i in range(len(groups)):
@@ -64,7 +63,6 @@ def process_text_with_api(groups, instructions):
                 {"role": "system", "content": instructions+ "/n Do not eliminate any information from the provided text and just perform as instructed"},
                 {"role": "user", "content": groups[i]}
             ]
-            # st.write(messages)
             messages_sum = [
                 {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
                  {"role":"user","content":i}
@@ -88,7 +86,6 @@ def process_text_with_api(groups, instructions):
                 'model':'gpt-4-turbo',
                 'messages':messages_sum
             }
-            ############################################
 
             response = requests.post(API_URL, headers=headers, json=data)
             if response.status_code == 200:
@@ -97,13 +94,6 @@ def process_text_with_api(groups, instructions):
             else:
                 return "An error occurred: " + response.text
                 st.write("Errorrrr!!!!!!!!!!")
-            ############################
-            # response = requests.post(API_URL, headers=headers, json=data_sum)
-            # if response.status_code == 200:
-            #     context+=str(response.json()['choices'][0]['message']['content'])+' '
-            # else:
-            #     return "An error occurred: " + response.text
-            #     st.write("Errorrrr!!!!!!!!!!")
     return final_text
 
 def process_document(filename, options,report_features,edits):
