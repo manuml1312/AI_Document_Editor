@@ -58,8 +58,7 @@ def process_text_with_api(groups, instructions):
     final_text=''
     for i in groups:
         messages = [
-            {"role": "system", "content": instructions},
-            {"role":"user","content":"The context for the given text is: "+final_text},
+            {"role": "system", "content": instructions+ f"Do not eliminate any information from the provided text.Refer to the given context for any clarifications if required.Context:{context}",
             {"role": "user", "content": i}
         ]
         messages_sum = [
