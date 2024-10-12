@@ -51,6 +51,7 @@ def read_docx(file_path):
     doc = Document(file_path)
     # return "\n".join([paragraph.text for paragraph in doc.paragraphs])
     text=[paragraph.text for paragraph in doc.paragraphs]
+    st.write(text)
     return text
 
 def process_text_with_api(groups, instructions):
