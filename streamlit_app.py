@@ -27,7 +27,8 @@ def text_break(text):
             groups.append(current_text.strip())
             current_text=''
             current_len=0
-    groups.append(current_text)
+    if current_text!='':
+        groups.append(current_text.strip())
     return groups
 
 # Load instructions from a file
