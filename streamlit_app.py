@@ -89,7 +89,7 @@ def process_text_with_api(groups, instructions):
             }
             ############################################
             st.write(groups[i])
-            st.write("/n/n")
+            st.write("\n\n")
             # final_text+=groups[i]
             # response = requests.post(API_URL, headers=headers, json=data)
             # if response.status_code == 200:
