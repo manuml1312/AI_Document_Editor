@@ -58,50 +58,51 @@ def process_text_with_api(groups, instructions):
     context=''
     final_text=''
     for i in groups:
-        messages = [
-            {"role": "system", "content": instructions+ "/nDo not eliminate any information from the provided text and just perform as instructed"},
-            {"role": "user", "content": i}
-        ]
-        messages_sum = [
-            {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
-             {"role":"user","content":i}
-        ]
-            
-        """ Call the OpenAI API with the extracted text and instructions. """
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {API_KEY}'
-        }
-        data = {
-            'model': 'gpt-4-turbo',
-            'messages':messages,
-            'max_tokens': 4096,
-            'temperature': 0.3,
-            'top_p': 1,
-            'frequency_penalty': 0,
-            'presence_penalty': 0
-        }
-        data_sum = {
-            'model':'gpt-4-turbo',
-            'messages':messages_sum
-        }
-        ############################################
-        final_text+=i
-        # response = requests.post(API_URL, headers=headers, json=data)
-        # if response.status_code == 200:
-        #     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-        #     context+=str(response.json()['choices'][0]['message']['content'])+' '
-        # else:
-        #     return "An error occurred: " + response.text
-        #     st.write("Errorrrr!!!!!!!!!!")
-        ############################
-        # response = requests.post(API_URL, headers=headers, json=data_sum)
-        # if response.status_code == 200:
-        #     context+=str(response.json()['choices'][0]['message']['content'])+' '
-        # else:
-        #     return "An error occurred: " + response.text
-        #     st.write("Errorrrr!!!!!!!!!!")
-    return final_text
+        if i!='Discussion':
+            messages = [
+                {"role": "system", "content": instructions+ "/nDo not eliminate any information from the provided text and just perform as instructed"},
+                {"role": "user", "content": i}
+            ]
+            messages_sum = [
+                {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
+                 {"role":"user","content":i}
+            ]
+                
+            """ Call the OpenAI API with the extracted text and instructions. """
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {API_KEY}'
+            }
+            data = {
+                'model': 'gpt-4-turbo',
+                'messages':messages,
+                'max_tokens': 4096,
+                'temperature': 0.3,
+                'top_p': 1,
+                'frequency_penalty': 0,
+                'presence_penalty': 0
+            }
+            data_sum = {
+                'model':'gpt-4-turbo',
+                'messages':messages_sum
+            }
+            ############################################
+            final_text+=i
+            # response = requests.post(API_URL, headers=headers, json=data)
+            # if response.status_code == 200:
+            #     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+            #     context+=str(response.json()['choices'][0]['message']['content'])+' '
+            # else:
+            #     return "An error occurred: " + response.text
+            #     st.write("Errorrrr!!!!!!!!!!")
+            ############################
+            # response = requests.post(API_URL, headers=headers, json=data_sum)
+            # if response.status_code == 200:
+            #     context+=str(response.json()['choices'][0]['message']['content'])+' '
+            # else:
+            #     return "An error occurred: " + response.text
+            #     st.write("Errorrrr!!!!!!!!!!")
+        return final_text
 
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
