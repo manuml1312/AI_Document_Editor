@@ -26,7 +26,7 @@ def text_break(text):
         else:
             groups.append(current_text)
             current_text=sentence+' '
-            current_len=word_len
+            current_len=0
     groups.append(current_text)
     return groups
 
