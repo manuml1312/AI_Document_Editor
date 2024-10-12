@@ -104,7 +104,7 @@ def process_text_with_api(groups, instructions):
             # else:
             #     return "An error occurred: " + response.text
             #     st.write("Errorrrr!!!!!!!!!!")
-        return final_text
+            return final_text
 
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
