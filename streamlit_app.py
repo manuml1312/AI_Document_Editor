@@ -63,7 +63,7 @@ def process_text_with_api(groups, instructions):
                 {"role": "system", "content": instructions+ "/n Do not eliminate any information from the provided text and just perform as instructed"},
                 {"role": "user", "content": groups[i]}
             ]
-            print(messages)
+            st.write(messages)
             messages_sum = [
                 {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
                  {"role":"user","content":i}
@@ -88,6 +88,7 @@ def process_text_with_api(groups, instructions):
                 'messages':messages_sum
             }
             ############################################
+            st.write(groups[i])
             final_text+=groups[i]
             # response = requests.post(API_URL, headers=headers, json=data)
             # if response.status_code == 200:
