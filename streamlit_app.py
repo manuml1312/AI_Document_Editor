@@ -86,7 +86,8 @@ def process_text_with_api(groups, instructions):
             'messages':messages_sum
         }
         ############################################
-        response = requests.post(API_URL, headers=headers, json=data)
+        final_text+=i
+        # response = requests.post(API_URL, headers=headers, json=data)
         # if response.status_code == 200:
         #     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
         #     context+=str(response.json()['choices'][0]['message']['content'])+' '
