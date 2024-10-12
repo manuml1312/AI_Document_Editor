@@ -87,12 +87,12 @@ def process_text_with_api(groups, instructions):
         }
         ############################################
         response = requests.post(API_URL, headers=headers, json=data)
-        if response.status_code == 200:
-            final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-            context+=str(response.json()['choices'][0]['message']['content'])+' '
-        else:
-            return "An error occurred: " + response.text
-            st.write("Errorrrr!!!!!!!!!!")
+        # if response.status_code == 200:
+        #     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+        #     context+=str(response.json()['choices'][0]['message']['content'])+' '
+        # else:
+        #     return "An error occurred: " + response.text
+        #     st.write("Errorrrr!!!!!!!!!!")
         ############################
         # response = requests.post(API_URL, headers=headers, json=data_sum)
         # if response.status_code == 200:
