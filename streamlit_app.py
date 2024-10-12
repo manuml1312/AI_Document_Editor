@@ -60,9 +60,10 @@ def process_text_with_api(groups, instructions):
     for i in range(len(groups)):
         if i!=0:
             messages = [
-                {"role": "system", "content": instructions+ "/nDo not eliminate any information from the provided text and just perform as instructed"},
+                {"role": "system", "content": instructions+ "/n Do not eliminate any information from the provided text and just perform as instructed"},
                 {"role": "user", "content": groups[i]}
             ]
+            print(messages)
             messages_sum = [
                 {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
                  {"role":"user","content":i}
