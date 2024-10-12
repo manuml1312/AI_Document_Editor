@@ -55,7 +55,7 @@ def read_docx(file_path):
     # return text
 
 def process_text_with_api(groups, instructions):
-    st.write(groups)
+    # st.write(groups)
     context=''
     final_text=''
     for i in range(len(groups)):
