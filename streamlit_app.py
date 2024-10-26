@@ -83,7 +83,7 @@ def process_text_with_api(groups, instructions):
                 'model': 'gpt-4o-mini',
                 'messages':messages,
                 'max_tokens': 6000,
-                'temperature': 0.25,
+                'temperature': 0.75,
                 'top_p': 1,
                 'frequency_penalty': 0,
                 'presence_penalty': 0
@@ -127,7 +127,7 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Define the path for instruction files
 edit_config = {
-    "Standard": './standard_edited.txt',
+    "Standard": './standard.txt',
     "Developmental": './developmental.txt',
     "ProofReading": './proofreading.txt'
 }
