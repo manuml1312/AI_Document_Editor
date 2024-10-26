@@ -53,10 +53,10 @@ def save_instructions(data, filename):
 def read_docx(file_path):
     """ Extract text from DOCX file. """
     doc = Document(file_path)
-    # return "\n".join([paragraph.text for paragraph in doc.paragraphs])
-    text=[paragraph.text for paragraph in doc.paragraphs]
+    return "\n".join([paragraph.text for paragraph in doc.paragraphs])
+    # text=[paragraph.text for paragraph in doc.paragraphs]
     # st.write(text)
-    return text
+    # return text
 
 def tokenize_text(text):
     return set(re.findall(r'\b\w+\b', text.lower()))
