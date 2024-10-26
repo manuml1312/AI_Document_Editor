@@ -82,8 +82,8 @@ def process_text_with_api(groups, instructions):
             data = {
                 'model': 'gpt-4o',
                 'messages':messages,
-                'max_tokens': 6000,
-                'temperature': 0.7,
+                'max_tokens': 16000,
+                'temperature': 0.3,
                 'top_p': 1,
                 'frequency_penalty': 0,
                 'presence_penalty': 0
