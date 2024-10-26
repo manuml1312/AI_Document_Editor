@@ -6,6 +6,9 @@ import pickle
 import requests
 import io
 import nltk
+import spacy
+from sentence_transformers import SentenceTransformer, util
+
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
@@ -114,6 +117,13 @@ def create_docx(text):
     buffer.seek(0)
     return buffer
 #################################################################
+st.cache_data()
+nltk.download('punkt_tab')
+st.cache_data()
+nlp = spacy.load("en_core_web_md")
+st.cache_data()
+model = SentenceTransformer('all-MiniLM-L6-v2') 
+
 # Define the path for instruction files
 edit_config = {
     "Standard": './standard.txt',
@@ -134,9 +144,6 @@ report_features = {
 # Streamlit UI
 st.title("Text Editor")
 
-st.cache_data()
-nltk.download('punkt_tab')
-
 edit_styles=['Standard','Developmental','ProofReading']
 style = st.selectbox("Select the type of editing", edit_styles)
 options=edit_config[style]
@@ -156,3 +163,19 @@ if st.button('Edit Text'):
         file_name="output.docx",
         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+    
+before_text=read_docx(uploaded_file)
+after_text=response
+embeddings1 = model.encode(before_text, convert_to_tensor=True)
+embeddings2 = model.encode(after_text, convert_to_tensor=True)
+semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+
+# Calculate word overlap ratio
+before_words = set([token.text.lower() for token in nlp(before_text) if token.is_alpha])
+after_words = set([token.text.lower() for token in nlp(after_text) if token.is_alpha])
+common_words = before_words.intersection(after_words)
+word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
+
+# Print results
+st.write("Semantic Similarity:", round(semantic_similarity, 2))
+st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
