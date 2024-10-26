@@ -80,10 +80,10 @@ def process_text_with_api(groups, instructions):
                 'Authorization': f'Bearer {API_KEY}'
             }
             data = {
-                'model': 'gpt-4-turbo',
+                'model': 'gpt-4o-mini',
                 'messages':messages,
                 'max_tokens': 4096,
-                'temperature': 0.3,
+                'temperature': 0.75,
                 'top_p': 1,
                 'frequency_penalty': 0,
                 'presence_penalty': 0
@@ -151,7 +151,6 @@ options=edit_config[style]
 
 uploaded_file=st.file_uploader("Upload the text document to process.",type=["docx","pdf","csv"],key='orig')
 edits = st.multiselect('Select required features:',report_features)
-
 # max_tokens=st.number_input("Insert the maximum number of tokens")
 
 if st.button('Edit Text'):
