@@ -66,7 +66,7 @@ def process_text_with_api(groups, instructions):
     final_text=''
     for i in range(len(groups)):
             messages = [
-                {"role": "system", "content": instructions+ "/n Do not eliminate any information from the provided text and just perform as instructed"},
+                {"role": "system", "content": instructions},
                 {"role": "user", "content": groups[i]}
             ]
             messages_sum = [
@@ -80,7 +80,7 @@ def process_text_with_api(groups, instructions):
                 'Authorization': f'Bearer {API_KEY}'
             }
             data = {
-                'model': 'gpt-4o',
+                'model': 'gpt-4o-mini',
                 'messages':messages,
                 'max_tokens': 6000,
                 'temperature': 0.75,
@@ -127,7 +127,7 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Define the path for instruction files
 edit_config = {
-    "Standard": './standard.txt',
+    "Standard": './standard_edited.txt',
     "Developmental": './developmental.txt',
     "ProofReading": './proofreading.txt'
 }
