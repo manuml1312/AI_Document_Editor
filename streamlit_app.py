@@ -121,7 +121,7 @@ def create_docx(text):
     return buffer
 #################################################################
 st.cache_data()
-nltk.download('punkt_tab').
+nltk.download('punkt_tab')
 model = SentenceTransformer('all-MiniLM-L6-v2') 
 # nlp = spacy.load("en_core_web_md")
 
