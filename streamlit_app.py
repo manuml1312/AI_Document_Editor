@@ -53,10 +53,10 @@ def save_instructions(data, filename):
 def read_docx(file_path):
     """ Extract text from DOCX file. """
     doc = Document(file_path)
-    return "\n".join([paragraph.text for paragraph in doc.paragraphs])
-    # text=[paragraph.text for paragraph in doc.paragraphs]
+    # return "\n".join([paragraph.text for paragraph in doc.paragraphs])
+    text=[paragraph.text for paragraph in doc.paragraphs]
     # st.write(text)
-    # return text
+    return text
 
 def tokenize_text(text):
     return set(re.findall(r'\b\w+\b', text.lower()))
@@ -83,7 +83,7 @@ def process_text_with_api(groups, instructions):
                 'model': 'gpt-4o',
                 'messages':messages,
                 'max_tokens': 16000,
-                'temperature': 0.3,
+                'temperature': 0.1,
                 'top_p': 1,
                 'frequency_penalty': 0,
                 'presence_penalty': 0
@@ -105,10 +105,10 @@ def process_text_with_api(groups, instructions):
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    groups = text_break(text)
+    # groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(groups, combined_text) 
+    return process_text_with_api(text, combined_text) 
 
 def create_docx(text):
     doc = Document()
