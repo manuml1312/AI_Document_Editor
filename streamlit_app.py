@@ -80,10 +80,10 @@ def process_text_with_api(groups, instructions):
                 'Authorization': f'Bearer {API_KEY}'
             }
             data = {
-                'model': 'gpt-4o',
+                'model': 'gpt-4o-mini',
                 'messages':messages,
                 'max_tokens': 16000,
-                'temperature': 0.1,
+                'temperature': 0.75,
                 'top_p': 1,
                 'frequency_penalty': 0,
                 'presence_penalty': 0
@@ -105,10 +105,10 @@ def process_text_with_api(groups, instructions):
 def process_document(filename, options,report_features,edits):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    # groups = text_break(text)
+    groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(text, combined_text) 
+    return process_text_with_api(groups, combined_text) 
 
 def create_docx(text):
     doc = Document()
@@ -157,8 +157,8 @@ if st.button('Edit Text'):
     response=process_document(uploaded_file,options,report_features,edits)
     st.write(response)
     docx_file = create_docx(response)
-    # before_text=read_docx(uploaded_file)
-    text=read_docx(uploaded_file)
+    before_text=read_docx(uploaded_file)
+    # text=read_docx(uploaded_file)
     before_text="\n".join([t for t in text])
     after_text=response
     embeddings1 = model.encode(before_text, convert_to_tensor=True)
