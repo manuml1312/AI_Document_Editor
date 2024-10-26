@@ -119,9 +119,7 @@ def create_docx(text):
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
-st.cache_data()
 nlp = spacy.load("en_core_web_md")
-st.cache_data()
 model = SentenceTransformer('all-MiniLM-L6-v2') 
 
 # Define the path for instruction files
