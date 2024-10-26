@@ -69,10 +69,6 @@ def process_text_with_api(groups, instructions):
                 {"role": "system", "content": instructions},
                 {"role": "user", "content": groups[i]}
             ]
-            messages_sum = [
-                {"role":"system","content":"Summarize the given text.Retain the important details while doing so"},
-                 {"role":"user","content":i}
-            ]
                 
             """ Call the OpenAI API with the extracted text and instructions. """
             headers = {
@@ -88,15 +84,17 @@ def process_text_with_api(groups, instructions):
                 'frequency_penalty': 0,
                 'presence_penalty': 0
             }
-            data_sum = {
-                'model':'gpt-4-turbo',
-                'messages':messages_sum
-            }
-
             response = requests.post(API_URL, headers=headers, json=data)
             if response.status_code == 200:
-                final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-                context+=str(response.json()['choices'][0]['message']['content'])+' '
+                final=str(response.json()['choices'][0]['message']['content'])+' '
+                messages_2 = [
+                {"role":"system","content":"Given text is already an edited version of a research paper. Increase the level of edit intervention while conserving the details and information"},
+                 {"role":"user","content":final}
+                ]
+                data['messages']=messages_2
+                response = requests.post(API_URL, headers=headers, json=data)
+                if response.status_code==200:
+                    final_text+=str(response.json()['choices'][0]['message']['content'])+' '
             else:
                 return "An error occurred: " + response.text
                 st.write("Errorrrr!!!!!!!!!!")
