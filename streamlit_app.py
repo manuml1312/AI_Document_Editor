@@ -83,7 +83,7 @@ def process_text_with_api(groups, instructions):
                 'model': 'gpt-4o-mini',
                 'messages':messages,
                 'max_tokens': 4096,
-                'temperature': 0.7,
+                'temperature': 0.8,
                 'top_p': 1,
                 'frequency_penalty': 0,
                 'presence_penalty': 0
