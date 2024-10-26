@@ -6,7 +6,6 @@ import pickle
 import requests
 import io
 import nltk
-import spacy
 from sentence_transformers import SentenceTransformer, util
 import re
 
