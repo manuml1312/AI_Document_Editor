@@ -127,7 +127,7 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Define the path for instruction files
 edit_config = {
-    "Standard": './standard.txt',
+    "Standard": './standard_edited.txt',
     "Developmental": './developmental.txt',
     "ProofReading": './proofreading.txt'
 }
