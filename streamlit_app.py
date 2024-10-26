@@ -22,7 +22,7 @@ def text_break(text):
     groups=[]
     for sentence in sentences:
         word_len=len(nltk.word_tokenize(sentence))
-        if current_len+word_len<=200:
+        if current_len+word_len<=300:
             current_len+=word_len
             current_text+=sentence+' '
         else:
