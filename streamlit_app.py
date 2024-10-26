@@ -8,7 +8,7 @@ import io
 import nltk
 import spacy
 from sentence_transformers import SentenceTransformer, util
-
+import re
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
@@ -59,6 +59,9 @@ def read_docx(file_path):
     # st.write(text)
     # return text
 
+def tokenize_text(text):
+    return set(re.findall(r'\b\w+\b', text.lower()))
+    
 def process_text_with_api(groups, instructions):
     context=''
     final_text=''
@@ -118,9 +121,10 @@ def create_docx(text):
     return buffer
 #################################################################
 st.cache_data()
-nltk.download('punkt_tab')
-nlp = spacy.load("en_core_web_md")
+nltk.download('punkt_tab').
 model = SentenceTransformer('all-MiniLM-L6-v2') 
+# nlp = spacy.load("en_core_web_md")
+
 
 # Define the path for instruction files
 edit_config = {
@@ -169,8 +173,8 @@ embeddings2 = model.encode(after_text, convert_to_tensor=True)
 semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
 
 # Calculate word overlap ratio
-before_words = set([token.text.lower() for token in nlp(before_text) if token.is_alpha])
-after_words = set([token.text.lower() for token in nlp(after_text) if token.is_alpha])
+before_words = tokenize_text(before_text)
+after_words = tokenize_text(after_text)
 common_words = before_words.intersection(after_words)
 word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
 
