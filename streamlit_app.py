@@ -80,7 +80,7 @@ def process_text_with_api(groups, instructions):
                 'Authorization': f'Bearer {API_KEY}'
             }
             data = {
-                'model': 'gpt-4o',
+                'model': 'gpt-4o-mini',
                 'messages':messages,
                 'max_tokens': 16000,
                 'temperature': 0.75,
