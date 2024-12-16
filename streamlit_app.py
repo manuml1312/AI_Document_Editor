@@ -85,7 +85,7 @@ def process_text_with_api(groups, instructions,style):
                 'presence_penalty': 0
             }
             response = requests.post(API_URL, headers=headers, json=data)
-            if response.status_code == 200 and str(style)=='Developmental' or str(style)=='ProofReading':
+            if response.status_code == 200:# and str(style)=='Developmental' or str(style)=='ProofReading':
                 final=str(response.json()['choices'][0]['message']['content'])+' '
                 messages_2 = [
                 {"role":"system","content":instructions},
@@ -95,8 +95,8 @@ def process_text_with_api(groups, instructions,style):
                 response = requests.post(API_URL, headers=headers, json=data)
                 if response.status_code==200:
                     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-            elif response.status_code==200 and str(style)=='Standard':
-              final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+            # elif response.status_code==200 and str(style)=='Standard':
+            #   final_text+=str(response.json()['choices'][0]['message']['content'])+' '
             else:
                 return "An error occurred: " + response.text
                 st.write("Errorrrr!!!!!!!!!!")
