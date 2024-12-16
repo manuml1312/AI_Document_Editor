@@ -88,7 +88,7 @@ def process_text_with_api(groups, instructions,style):
             if response.status_code == 200 and str(style)=='Developmental' or str(style)=='ProofReading':
                 final=str(response.json()['choices'][0]['message']['content'])+' '
                 messages_2 = [
-                {"role":"system","content":"Given text is already an edited version of a research paper. Increase the level of edit intervention while conserving the details and information"},
+                {"role":"system","content":instructions},
                  {"role":"user","content":final}
                 ]
                 data['messages']=messages_2
