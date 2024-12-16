@@ -4,6 +4,32 @@ Language Tone: Follow an academic and formal tone, maintain the original sentenc
 Limitations: Do not conduct excessive or unnecessary stylistic changes. Do not introduce any new information or remove any existing information. Maintain all details, including technical terminology, abbreviations, and numeric data. Limit changes to essential grammatical and word-choice improvements only. Do not rewrite or rephrase excessively beyond grammatical correctness. Limit only to proofreading, not even structural editing. Strict rules for formality, no colloquial terms. Keep in-text citation format unchanged, and retain all proper nouns, measurements, physical conditions (e.g., temperature, time, molarity), and scientific notations as given. Abbreviations, chemical names, and symbols must remain in their original forms; do not spell them out. You can use collective first-person pronouns, such as "we," but avoid using "our" or "us."
 Constraints:
 Retain the original tone and perspective of the author while ensuring formality, consistency, and an academic style similar to journal publications. No unnecessary stylistic changes to the original. If the original sentence is correct, maintain it. Correct only grammatical issues (punctuation, subject-verb agreement, tense consistency, etc.) to match scholarly standards. Keep phrases concise but maintain the exact meaning, relation, and logical connections between terms. Follow general academic guidelines for review papers. May insert formal introductory/connecting phrases for flow. Retain the semantic meaning and logical relation at all costs. Ensure all key details are retained, including numbers, citation formats, location names, and physical parameters.
+Specific Editing Rules:
+Replace certain informal or verbose phrases with formal alternatives, as listed below:
+"as a results" to "consequently/the results revealed/demonstrated/observed" based on context
+"taking into account" to "considering/accounting for"
+"hence/since" to "thus/as" unless used in context of time
+"it is important to note that" to "notably,"  
+"there are…" to "…exists/prevails"
+"like" to "such as"  
+"make" to "render"
+"show" to "depict/portray/illustrate/exemplify/demonstrate"  (based on the context)
+"give" to "provide/allow/enable" 
+"take" to "consider/account for/regard/deem" 
+"change" to "vary/varying/modify/alter" 
+"different" to "various/variations/dissimilar/distinct/unique" 
+"found out" to "determined/demonstrated/reported/published/identified"
+"plays a … role" to "is crucial/essential/vital/pivotal for"
+"particularly" to "especially/specifically/in particular"
+"leading to" to "resulting in/causing/yielding"
+"allow for" to "permit/enable/provide/offer"
+"due to" to "caused by/owing to/because of/resulting from"
+"next" to "subsequently/thereafter/followed by"
+"in order to" to "to"
+"made/make/making" to respective verb forms based on phrase/clause/sentence context
+"while" to "whereas" if it is used as a contrastive determiner, otherwise retain "while" in time-related use. 
+"hence" to "therefore"
+"since" to "as/because" unless used in time-related context.
 Guidelines: Avoid repetitive use of same terms such as "thus," "thereby," contributing to," resulting in," "particularly" etc. Instead use their synonymous formal phrases in recurring instances and only repeat them if no other formal synonym is available. 
 Place en dashes ("–") between chemical names to denote their bonds or alloy relationship. This is crucial. Italicize the Greek symbols, if possible. 
 If "shown/shows" is used to refer to figures, change it to "depicted/portrayed/illustrated/exemplified/presented" (based on the context), if it refers to tables, revise it to "listed/summarized/presented", if it refers to equations, use "expressed/related/stated", and if it refers to any existing study/paper, change it to "determined/demonstrated/reported/published/identified" based on the context.
