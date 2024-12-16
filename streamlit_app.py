@@ -85,7 +85,7 @@ def process_text_with_api(groups, instructions,style):
                 'presence_penalty': 0
             }
             response = requests.post(API_URL, headers=headers, json=data)
-            if response.status_code == 200 and str(style)=='Developmental':
+            if response.status_code == 200 and str(style)=='Developmental' or str(style)=='ProofReading':
                 final=str(response.json()['choices'][0]['message']['content'])+' '
                 messages_2 = [
                 {"role":"system","content":"Given text is already an edited version of a research paper. Increase the level of edit intervention while conserving the details and information"},
@@ -95,7 +95,7 @@ def process_text_with_api(groups, instructions,style):
                 response = requests.post(API_URL, headers=headers, json=data)
                 if response.status_code==200:
                     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-            elif response.status_code==200 and str(style)!='Developmental':
+            elif response.status_code==200 and str(style)=='Standard':
               final_text+=str(response.json()['choices'][0]['message']['content'])+' '
             else:
                 return "An error occurred: " + response.text
