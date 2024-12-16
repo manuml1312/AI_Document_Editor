@@ -108,7 +108,7 @@ def process_document(filename, options,report_features,edits,style):
     groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(groups, combined_text) 
+    return process_text_with_api(groups, combined_text,style) 
 
 def create_docx(text):
     doc = Document()
