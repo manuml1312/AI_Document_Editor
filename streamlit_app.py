@@ -61,7 +61,7 @@ def read_docx(file_path):
 def tokenize_text(text):
     return set(re.findall(r'\b\w+\b', text.lower()))
     
-def process_text_with_api(groups, instructions):
+def process_text_with_api(groups, instructions,style):
     context=''
     final_text=''
     for i in range(len(groups)):
@@ -85,7 +85,7 @@ def process_text_with_api(groups, instructions):
                 'presence_penalty': 0
             }
             response = requests.post(API_URL, headers=headers, json=data)
-            if response.status_code == 200:
+            if response.status_code == 200 and str(style)=='Developmental':
                 final=str(response.json()['choices'][0]['message']['content'])+' '
                 messages_2 = [
                 {"role":"system","content":"Given text is already an edited version of a research paper. Increase the level of edit intervention while conserving the details and information"},
@@ -95,12 +95,14 @@ def process_text_with_api(groups, instructions):
                 response = requests.post(API_URL, headers=headers, json=data)
                 if response.status_code==200:
                     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+            elif response.status_code==200 and str(style)!='Developmental':
+              final_text+=str(response.json()['choices'][0]['message']['content'])+' '
             else:
                 return "An error occurred: " + response.text
                 st.write("Errorrrr!!!!!!!!!!")
     return final_text
 
-def process_document(filename, options,report_features,edits):
+def process_document(filename, options,report_features,edits,style):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
     groups = text_break(text)
@@ -152,7 +154,7 @@ edits = st.multiselect('Select required features:',report_features)
 # max_tokens=st.number_input("Insert the maximum number of tokens")
 
 if st.button('Edit Text'):
-    response=process_document(uploaded_file,options,report_features,edits)
+    response=process_document(uploaded_file,options,report_features,edits,style)
     st.write(response)
     docx_file = create_docx(response)
     before_text=read_docx(uploaded_file)
@@ -177,6 +179,4 @@ if st.button('Edit Text'):
         data=docx_file,
         file_name="output.docx",
         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    
     )
-    
