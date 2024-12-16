@@ -127,7 +127,7 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 edit_config = {
     "Standard": './standard_edited.txt',
     "Developmental": './developmental.txt',
-    "ProofReading": './proofreading.txt'
+    "ProofReading": './proof_reading2.txt'
 }
 
 # Report features for additional processing options
