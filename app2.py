@@ -85,21 +85,25 @@ def process_text_with_api(groups, instructions,style):
                 'presence_penalty': 0
             }
             response = requests.post(API_URL, headers=headers, json=data)
-            if response.status_code == 200 and str(style)=='Developmental':
+            if response.status_code == 200:
                 final=str(response.json()['choices'][0]['message']['content'])+' '
-                messages_2 = [
-                {"role":"system","content":"Given text is already an edited version of a research paper. Increase the level of edit intervention while conserving the details and information"},
-                 {"role":"user","content":final}
-                ]
+                if str(style)=='Developmental':
+                    messages_2 = [
+                    {"role":"system","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the details and information"""},
+                     {"role":"user","content":final}
+                    ]
+                if str(style) in ['Standard','ProofReading']:
+                    messages_2 = [
+                    {"role":"system","content":instructions},
+                     {"role":"user","content":final}
+                    ]
                 data['messages']=messages_2
                 response = requests.post(API_URL, headers=headers, json=data)
                 if response.status_code==200:
                     final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-            elif response.status_code==200 and str(style)!='Developmental':
-              final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-            else:
-                return "An error occurred: " + response.text
-                st.write("Errorrrr!!!!!!!!!!")
+                else:
+                    return "An error occurred: " + response.text
+                    st.write("Errorrrr!!!!!!!!!!")
     return final_text
 
 def process_document(filename, options,report_features,edits,style):
@@ -108,7 +112,7 @@ def process_document(filename, options,report_features,edits,style):
     groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(groups, combined_text) 
+    return process_text_with_api(groups, combined_text,style) 
 
 def create_docx(text):
     doc = Document()
@@ -127,9 +131,9 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Define the path for instruction files
 edit_config = {
-    "Standard": './standard_edited.txt',
+    "Standard": './standard_new.txt',
     "Developmental": './developmental.txt',
-    "ProofReading": './proof_reading2.txt'
+    "ProofReading": './proofreading_new.txt'
 }
 
 # Report features for additional processing options
@@ -180,4 +184,3 @@ if st.button('Edit Text'):
         file_name="output.docx",
         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
-    
