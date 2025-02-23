@@ -79,7 +79,7 @@ def process_text_with_api(groups, instructions,style):
             data = {
                 'model': 'o1-mini',
                 'messages':messages,
-                'max_tokens': req_w,
+                'max_tokens': 16000,
                 'temperature': 0.75,
                 'top_p': 1,
                 'frequency_penalty': 0,
