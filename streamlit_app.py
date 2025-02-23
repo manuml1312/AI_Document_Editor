@@ -31,7 +31,7 @@ def text_break(text):
             current_len=0
     if current_text:
         groups.append(current_text.strip())
-    req_w=len(nltk.word_tokenize(text))*1.05
+    req_w=round(len(nltk.word_tokenize(text))*1.05)
     return groups,req_w
 
 # Load instructions from a file
