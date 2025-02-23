@@ -77,7 +77,7 @@ def process_text_with_api(groups, instructions,style,req_w):
                 'Authorization': f'Bearer {API_KEY}'
             }
             data = {
-                'model': 'o3-mini',
+                'model': 'o1-mini',
                 'messages':messages,
                 'max_tokens': req_w,
                 'temperature': 0.75,
