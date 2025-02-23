@@ -31,8 +31,8 @@ def text_break(text):
             current_len=0
     if current_text:
         groups.append(current_text.strip())
-    req_w=round(len(nltk.word_tokenize(text))*1.05)
-    return groups,req_w
+    # req_w=round(len(nltk.word_tokenize(text))*1.05)
+    return groups
 
 # Load instructions from a file
 def load_instructions(filename):
@@ -62,7 +62,7 @@ def read_docx(file_path):
 def tokenize_text(text):
     return set(re.findall(r'\b\w+\b', text.lower()))
     
-def process_text_with_api(groups, instructions,style,req_w):
+def process_text_with_api(groups, instructions,style):
     context=''
     final_text=''
     for i in range(len(groups)):
@@ -110,10 +110,10 @@ def process_text_with_api(groups, instructions,style,req_w):
 def process_document(filename, options,report_features,edits,style):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    groups,req_w = text_break(text)
+    groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(groups, combined_text,style,req_w) 
+    return process_text_with_api(groups, combined_text,style) 
 
 def create_docx(text):
     doc = Document()
