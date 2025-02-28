@@ -1,8 +1,5 @@
 streamlit
-crewai
-crewai_tools
 openai
 python-docx
 nltk
 sentence-transformers
-torch
