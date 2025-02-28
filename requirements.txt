@@ -3,3 +3,4 @@ openai
 python-docx
 nltk
 sentence-transformers
+crewai
