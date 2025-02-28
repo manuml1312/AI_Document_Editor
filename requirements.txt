@@ -5,4 +5,3 @@ nltk
 sentence-transformers
 crewai
 chromadb==0.4.17
-pysqlite3
