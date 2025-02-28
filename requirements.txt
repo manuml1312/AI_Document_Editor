@@ -4,4 +4,4 @@ python-docx
 nltk
 sentence-transformers
 crewai
-torch
+sqlite==3.35.0
