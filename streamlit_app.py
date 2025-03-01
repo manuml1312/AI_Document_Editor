@@ -113,7 +113,7 @@ def process_text_with_api(groups, instructions,style):
                 return final_text
             except Exception as e:
                 st.write(e)
-                pass
+                return e
     except Exception as e:
         st.write(e)
         return e
