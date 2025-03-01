@@ -9,6 +9,9 @@ import nltk
 from sentence_transformers import SentenceTransformer, util
 import re
 from crewai import Agent,Task,Crew,Process,LLM
+import torch
+
+torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)] 
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
