@@ -4,8 +4,7 @@ python-docx
 nltk
 sentence-transformers
 torch
-crewai
-sqlite3>=3.35.0
 pysqlite3-binary
+crewai
 chromadb
 asyncio
