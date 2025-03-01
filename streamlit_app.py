@@ -8,13 +8,13 @@ import io
 import nltk
 from sentence_transformers import SentenceTransformer, util
 import re
-from crewai import Agent,Task,Crew,Process,LLM
-import torch
-import pysqlite3 as sqlite3
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)] 
+
+from crewai import Agent,Task,Crew,Process,LLM
+
+
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
