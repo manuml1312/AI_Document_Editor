@@ -5,4 +5,5 @@ nltk
 sentence-transformers
 torch
 crewai
+pysqlite3-binary
 chromadb
