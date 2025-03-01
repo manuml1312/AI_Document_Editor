@@ -66,6 +66,7 @@ def process_text_with_api(groups, instructions,style):
     context=''
     final_text=''
     for i in range(len(groups)):
+        try:
             messages = [
                 {"role": "system", "content": instructions},
                 {"role": "user", "content": groups[i]}
@@ -105,6 +106,8 @@ def process_text_with_api(groups, instructions,style):
                 else:
                     return "An error occurred: " + response.text
                     st.write("Errorrrr!!!!!!!!!!")
+        except Exception as e:
+            return e
     return final_text
 
 def process_document(filename, options,report_features,edits,style):
