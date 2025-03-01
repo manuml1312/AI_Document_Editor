@@ -8,9 +8,9 @@ import io
 import nltk
 from sentence_transformers import SentenceTransformer, util
 import re
-import torch
-
-torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)] 
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
@@ -81,7 +81,7 @@ def process_text_with_api(groups, instructions,style):
                     'Authorization': f'Bearer {API_KEY}'
                 }
                 data = {
-                    'model': 'gpt-4o-mini',
+                    'model': 'o1-mini',
                     'messages':messages,
                     'max_tokens': 16000,
                     'temperature': 0.75,
