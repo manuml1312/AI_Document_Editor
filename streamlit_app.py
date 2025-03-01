@@ -65,7 +65,7 @@ def tokenize_text(text):
     return set(re.findall(r'\b\w+\b', text.lower()))
     
 def process_text_with_api(text, instructions):
-    max_t=len(nltk.word_tokenize(text))*5.5
+    max_t=int(len(nltk.word_tokenize(text))*5.5)
     llm=LLM(model='openai/gpt-4o-mini',temperature=0.75,max_tokens=max_t,api_key=API_KEY)
     res_agent=Agent(
         role = "Research Paper Editor",
