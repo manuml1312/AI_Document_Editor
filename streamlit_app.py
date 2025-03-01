@@ -22,24 +22,24 @@ API_URL = 'https://api.openai.com/v1/chat/completions'
 
 #creating text windows
 
-def text_break(text):
-    sentences=nltk.sent_tokenize(text)
-    current_len=0
-    current_text=''
-    groups=[]
-    for sentence in sentences:
-        word_len=len(nltk.word_tokenize(sentence))
-        if current_len+word_len<=250:
-            current_len+=word_len
-            current_text+=sentence+' '
-        else:
-            groups.append(current_text.strip())
-            current_text=''
-            current_len=0
-    if current_text:
-        groups.append(current_text.strip())
-    # req_w=round(len(nltk.word_tokenize(text))*1.05)
-    return groups
+# def text_break(text):
+#     sentences=nltk.sent_tokenize(text)
+#     current_len=0
+#     current_text=''
+#     groups=[]
+#     for sentence in sentences:
+#         word_len=len(nltk.word_tokenize(sentence))
+#         if current_len+word_len<=250:
+#             current_len+=word_len
+#             current_text+=sentence+' '
+#         else:
+#             groups.append(current_text.strip())
+#             current_text=''
+#             current_len=0
+#     if current_text:
+#         groups.append(current_text.strip())
+#     # req_w=round(len(nltk.word_tokenize(text))*1.05)
+#     return groups
 
 # Load instructions from a file
 def load_instructions(filename):
@@ -93,7 +93,7 @@ def process_text_with_api(text, instructions):
 def process_document(filename, options,report_features,edits,style):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    groups = text_break(text)
+    # groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
     return process_text_with_api(text,combined_text) 
