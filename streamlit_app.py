@@ -81,7 +81,7 @@ def process_text_with_api(groups, instructions,style):
                     'Authorization': f'Bearer {API_KEY}'
                 }
                 data = {
-                    'model': 'o1-mini',
+                    'model': 'gpt-4o-mini',
                     'messages':messages,
                     'max_tokens': 16000,
                     'temperature': 0.75,
@@ -111,6 +111,7 @@ def process_text_with_api(groups, instructions,style):
                         st.write("Errorrrr!!!!!!!!!!")
         return final_text
     except Exception as e:
+        st.write(e)
         return e
 
 def process_document(filename, options,report_features,edits,style):
