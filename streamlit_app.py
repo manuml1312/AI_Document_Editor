@@ -65,50 +65,50 @@ def tokenize_text(text):
 def process_text_with_api(groups, instructions,style):
     context=''
     final_text=''
-    for i in range(len(groups)):
-        try:
-            messages = [
-                {"role": "system", "content": instructions},
-                {"role": "user", "content": groups[i]}
-            ]
-                
-            """ Call the OpenAI API with the extracted text and instructions. """
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {API_KEY}'
-            }
-            data = {
-                'model': 'o1-mini',
-                'messages':messages,
-                'max_tokens': 16000,
-                'temperature': 0.75,
-                'top_p': 1,
-                'frequency_penalty': 0,
-                'presence_penalty': 0
-            }
-            response = requests.post(API_URL, headers=headers, json=data)
-            if response.status_code == 200:
-                final=str(response.json()['choices'][0]['message']['content'])+' '
-                if str(style)=='Developmental':
-                    messages_2 = [
-                    {"role":"system","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the details and information"""},
-                     {"role":"user","content":final}
-                    ]
-                if str(style) in ['Standard','ProofReading']:
-                    messages_2 = [
-                    {"role":"system","content":instructions},
-                     {"role":"user","content":final}
-                    ]
-                data['messages']=messages_2
+    try:
+        for i in range(len(groups)):
+                messages = [
+                    {"role": "system", "content": instructions},
+                    {"role": "user", "content": groups[i]}
+                ]
+                    
+                """ Call the OpenAI API with the extracted text and instructions. """
+                headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': f'Bearer {API_KEY}'
+                }
+                data = {
+                    'model': 'o1-mini',
+                    'messages':messages,
+                    'max_tokens': 16000,
+                    'temperature': 0.75,
+                    'top_p': 1,
+                    'frequency_penalty': 0,
+                    'presence_penalty': 0
+                }
                 response = requests.post(API_URL, headers=headers, json=data)
-                if response.status_code==200:
-                    final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-                else:
-                    return "An error occurred: " + response.text
-                    st.write("Errorrrr!!!!!!!!!!")
-        except Exception as e:
-            return e
-    return final_text
+                if response.status_code == 200:
+                    final=str(response.json()['choices'][0]['message']['content'])+' '
+                    if str(style)=='Developmental':
+                        messages_2 = [
+                        {"role":"system","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the details and information"""},
+                         {"role":"user","content":final}
+                        ]
+                    if str(style) in ['Standard','ProofReading']:
+                        messages_2 = [
+                        {"role":"system","content":instructions},
+                         {"role":"user","content":final}
+                        ]
+                    data['messages']=messages_2
+                    response = requests.post(API_URL, headers=headers, json=data)
+                    if response.status_code==200:
+                        final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+                    else:
+                        return "An error occurred: " + response.text
+                        st.write("Errorrrr!!!!!!!!!!")
+        return final_text
+    except Exception as e:
+        return e
 
 def process_document(filename, options,report_features,edits,style):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
