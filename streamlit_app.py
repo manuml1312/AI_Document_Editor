@@ -10,6 +10,7 @@ from sentence_transformers import SentenceTransformer, util
 import re
 from crewai import Agent,Task,Crew,Process,LLM
 import torch
+import pysqlite3 as sqlite3
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
