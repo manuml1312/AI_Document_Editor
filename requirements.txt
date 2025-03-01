@@ -5,7 +5,7 @@ nltk
 sentence-transformers
 torch
 crewai
-sqlite3
+sqlite
 pysqlite3-binary
 chromadb
 asyncio
