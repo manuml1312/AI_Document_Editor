@@ -10,7 +10,9 @@ from sentence_transformers import SentenceTransformer, util
 import re
 from crewai import Agent,Task,Crew,Process,LLM
 import torch
-
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)] 
 
 # from openai import OpenAI
