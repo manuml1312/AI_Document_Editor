@@ -70,25 +70,26 @@ def process_text_with_api(groups, instructions,style):
     final_text=''
     try:
         for i in range(len(groups)):
-                messages = [
-                    {"role": "system", "content": instructions},
-                    {"role": "user", "content": groups[i]}
-                ]
-                    
-                """ Call the OpenAI API with the extracted text and instructions. """
-                headers = {
-                    'Content-Type': 'application/json',
-                    'Authorization': f'Bearer {API_KEY}'
-                }
-                data = {
-                    'model': 'o1-mini',
-                    'messages':messages,
-                    'max_tokens': 16000,
-                    'temperature': 0.75,
-                    'top_p': 1,
-                    'frequency_penalty': 0,
-                    'presence_penalty': 0
-                }
+            messages = [
+                {"role": "system", "content": instructions},
+                {"role": "user", "content": groups[i]}
+            ]
+                
+            """ Call the OpenAI API with the extracted text and instructions. """
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {API_KEY}'
+            }
+            data = {
+                'model': 'o1-mini',
+                'messages':messages,
+                'max_tokens': 16000,
+                'temperature': 0.75,
+                'top_p': 1,
+                'frequency_penalty': 0,
+                'presence_penalty': 0
+            }
+            try:
                 response = requests.post(API_URL, headers=headers, json=data)
                 if response.status_code == 200:
                     final=str(response.json()['choices'][0]['message']['content'])+' '
@@ -109,7 +110,10 @@ def process_text_with_api(groups, instructions,style):
                     else:
                         return "An error occurred: " + response.text
                         st.write("Errorrrr!!!!!!!!!!")
-        return final_text
+                return final_text
+            except Exception as e:
+                st.write(e)
+                pass
     except Exception as e:
         st.write(e)
         return e
