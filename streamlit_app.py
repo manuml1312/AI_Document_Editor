@@ -72,7 +72,7 @@ def process_text_with_api(text, instructions):
         goal = """To edit the given research paper strictly as per the provided instructions.""",
         backstory = "You are an expert at editing research papers using the given instructions and have a keen eye for detail and keeping up with the provided guidelines for editing.",
         llm=llm,
-        max_iterations=3,
+        max_iterations=2,
         )
 
     task = Task(
