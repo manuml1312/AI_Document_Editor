@@ -5,3 +5,4 @@ nltk
 sentence-transformers
 torch
 crewai
+chromadb
