@@ -63,7 +63,7 @@ def tokenize_text(text):
     
 def process_text_with_api(text, instructions):
     max_t=len(nltk.word_tokenize(text))*5.5
-    llm=LLM(model='openai/o1-mini',temperature=0.75,max_tokens=max_t,api_key=API_KEY)
+    llm=LLM(model='openai/gpt-4o-mini',temperature=0.75,max_tokens=max_t,api_key=API_KEY)
     res_agent=Agent(
         role = "Research Paper Editor",
         goal = """To edit the given research paper strictly as per the provided instructions.""",
