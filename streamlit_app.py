@@ -8,9 +8,9 @@ import io
 import nltk
 from sentence_transformers import SentenceTransformer, util
 import re
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
