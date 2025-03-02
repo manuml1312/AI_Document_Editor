@@ -76,9 +76,10 @@ def process_text_with_api(groups, instructions,style):
                 {"role": "assistant", "content": instructions},
                 {"role": "user", "content": groups[i]}
             ]
+            req_w=int(round(len(group[i].split())))
             response = client.chat.completions.create(
                   model="o1-mini",
-                  messages=messages, #max_completion_tokens=16000
+                  messages=messages, max_completion_tokens=req_w
                   )
                 
             """ Call the OpenAI API with the extracted text and instructions. """
