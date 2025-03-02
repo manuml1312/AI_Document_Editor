@@ -78,7 +78,7 @@ def process_text_with_api(groups, instructions,style):
             ]
             response = client.chat.completions.create(
                   model="o1-mini",
-                  messages=messages,max_completion_tokens=16000
+                  messages=messages, #max_completion_tokens=16000
                   )
                 
             """ Call the OpenAI API with the extracted text and instructions. """
@@ -111,7 +111,7 @@ def process_text_with_api(groups, instructions,style):
                      {"role":"user","content":final}
                     ]
                 # data['messages']=messages_2
-                response=client.chat.completions.create(model='o1-mini',messages=messages_2,max_completion_tokens=16000)
+                response=client.chat.completions.create(model='o1-mini',messages=messages_2) #,max_completion_tokens=16000)
                 if response.choices[0].message.content:
                 # response = requests.post(API_URL, headers=headers, json=data)
                 # if response.status_code==200:
