@@ -111,7 +111,7 @@ def process_text_with_api(groups, instructions,style):
                      {"role":"user","content":final}
                     ]
                 # data['messages']=messages_2
-                response=client.chat.completions.create(model='o1-mini',messages=messages2,max_completion_tokens=16000)
+                response=client.chat.completions.create(model='o1-mini',messages=messages_2,max_completion_tokens=16000)
                 if response.choices[0].message.content:
                 # response = requests.post(API_URL, headers=headers, json=data)
                 # if response.status_code==200:
