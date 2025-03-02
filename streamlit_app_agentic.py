@@ -11,7 +11,11 @@ import re
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-
+#torch
+#pysqlite3-binary
+#crewai
+#chromadb
+#asyncio
 from crewai import Agent,Task,Crew,Process,LLM
 
 
