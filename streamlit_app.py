@@ -98,7 +98,8 @@ def process_text_with_api(groups, instructions,style):
             # response = requests.post(API_URL, headers=headers, json=data)
             # if response.status_code == 200:
             if response.choices[0].message.content:
-                final=str(response.json()['choices'][0]['message']['content'])+' '
+                # final=str(response.json()['choices'][0]['message']['content'])+' '
+                final=str(response.choices[0].message.content)
                 if str(style)=='Developmental':
                     messages_2 = [
                     {"role":"assistant","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the details and information"""},
@@ -114,7 +115,8 @@ def process_text_with_api(groups, instructions,style):
                 if response.choices[0].message.content:
                 # response = requests.post(API_URL, headers=headers, json=data)
                 # if response.status_code==200:
-                    final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+                    # final_text+=str(response.json()['choices'][0]['message']['content'])+' '
+                    final_text+=str(response.choices[0].message.content
                 else:
                     return "An error occurred: " + response.text
                     st.write("Errorrrr!!!!!!!!!!")
