@@ -3,8 +3,3 @@ openai
 python-docx
 nltk
 sentence-transformers
-#torch
-#pysqlite3-binary
-#crewai
-#chromadb
-#asyncio
