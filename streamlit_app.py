@@ -97,7 +97,7 @@ def process_text_with_api(groups, instructions,style):
             # }
             # response = requests.post(API_URL, headers=headers, json=data)
             # if response.status_code == 200:
-            if response.choice[0].message.content:
+            if response.choices[0].message.content:
                 final=str(response.json()['choices'][0]['message']['content'])+' '
                 if str(style)=='Developmental':
                     messages_2 = [
