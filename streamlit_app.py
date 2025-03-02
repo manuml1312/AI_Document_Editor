@@ -76,7 +76,7 @@ def process_text_with_api(groups, instructions,style):
                 {"role": "assistant", "content": instructions},
                 {"role": "user", "content": groups[i]}
             ]
-            req_w=int(round(len(group[i].split())))
+            req_w=int(round(len(groups[i].split())))
             response = client.chat.completions.create(
                   model="o1-mini",
                   messages=messages, max_completion_tokens=req_w
