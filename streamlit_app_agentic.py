@@ -26,24 +26,24 @@ API_URL = 'https://api.openai.com/v1/chat/completions'
 
 #creating text windows
 
-# def text_break(text):
-#     sentences=nltk.sent_tokenize(text)
-#     current_len=0
-#     current_text=''
-#     groups=[]
-#     for sentence in sentences:
-#         word_len=len(nltk.word_tokenize(sentence))
-#         if current_len+word_len<=250:
-#             current_len+=word_len
-#             current_text+=sentence+' '
-#         else:
-#             groups.append(current_text.strip())
-#             current_text=''
-#             current_len=0
-#     if current_text:
-#         groups.append(current_text.strip())
-#     # req_w=round(len(nltk.word_tokenize(text))*1.05)
-#     return groups
+def text_break(text):
+    sentences=nltk.sent_tokenize(text)
+    current_len=0
+    current_text=''
+    groups=[]
+    for sentence in sentences:
+        word_len=len(nltk.word_tokenize(sentence))
+        if current_len+word_len<=250:
+            current_len+=word_len
+            current_text+=sentence+' '
+        else:
+            groups.append(current_text.strip())
+            current_text=''
+            current_len=0
+    if current_text:
+        groups.append(current_text.strip())
+    # req_w=round(len(nltk.word_tokenize(text))*1.05)
+    return groups
 
 # Load instructions from a file
 def load_instructions(filename):
@@ -68,39 +68,43 @@ def read_docx(file_path):
 def tokenize_text(text):
     return set(re.findall(r'\b\w+\b', text.lower()))
     
-def process_text_with_api(text, instructions):
-    max_t=int(len(nltk.word_tokenize(text))*5.5)
-    llm=LLM(model='openai/o1-mini',temperature=0.75,max_tokens=max_t,api_key=API_KEY)
-    res_agent=Agent(
-        role = "Research Paper Editor",
-        goal = """To edit the given research paper strictly as per the provided instructions.""",
-        backstory = "You are an expert at editing research papers using the given instructions and have a keen eye for detail and keeping up with the provided guidelines for editing.",
-        llm=llm,
-        max_iterations=2,
+def process_text_with_api(text,groups,instructions):
+    text=''
+    for i in groups:
+        max_t=int(len(nltk.word_tokenize(i))*5.5)
+        llm=LLM(model='openai/o1-mini',max_tokens=max_t,api_key=API_KEY)
+        res_agent=Agent(
+            role = "Research Paper Editor",
+            goal = """To edit the given research paper strictly as per the provided instructions.""",
+            backstory = "You are an expert at editing research papers using the given instructions and have a keen eye for detail and keeping up with the provided guidelines for editing.",
+            llm=llm,
+            max_iterations=2,
+            )
+    
+        task = Task(
+            description = f"""Edit the following text,from the research paper as per the provided instructions and striclty follow the guidelines.Do not increase the word count above the original word count.
+            The research paper: {i}
+            The instructions are: {instructions}""",
+            agent=res_agent,
+            expected_output = "Edited research paper",
         )
-
-    task = Task(
-        description = f"""Edit the research paper as per the provided instructions and striclty follow the guidelines.Do not increase the word count above the original word count.
-        The research paper: {text}
-        The instructions are: {instructions}""",
-        agent=res_agent,
-        expected_output = "Edited research paper",
-    )
-
-    ppt_crew = Crew(agents=[res_agent], tasks=[task],process=Process.sequential)
-    try:
-        result=ppt_crew.kickoff()
-        return result.raw
-    except Exception as e:
-        return f"An error occurred: {e}"
+    
+        ppt_crew = Crew(agents=[res_agent], tasks=[task],process=Process.sequential)
+        try:
+            result=ppt_crew.kickoff()
+            text+=str(result.raw)+'\n\n'
+        except Exception as e:
+            return f"An error occurred: {e}"
+            break
+    return text
 
 def process_document(filename, options,report_features,edits,style):
     """ Read the DOCX file, process the text with loaded instructions and additional features, call the API. """
     text = read_docx(filename)
-    # groups = text_break(text)
+    groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(text,combined_text) 
+    return process_text_with_api(text,groups,combined_text)
 
 def create_docx(text):
     doc = Document()
