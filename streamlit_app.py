@@ -73,7 +73,7 @@ def process_text_with_api(groups, instructions,style):
     try:
         for i in range(len(groups)):
             messages = [
-                {"role": "assistant", "content": instructions},
+                {"role": "developer", "content": instructions},
                 {"role": "user", "content": groups[i]}
             ]
             #req_w=int(round(len(groups[i].split())*5.5))
@@ -104,12 +104,12 @@ def process_text_with_api(groups, instructions,style):
                 final=str(response.choices[0].message.content)
                 if str(style)=='Developmental':
                     messages_2 = [
-                    {"role":"assistant","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the word count,details and information."""},
+                    {"role":"developer","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the word count,details and information."""},
                      {"role":"user","content":final}
                     ]
                 if str(style) in ['Standard','ProofReading']:
                     messages_2 = [
-                    {"role":"assistant","content":instructions},
+                    {"role":"developer","content":instructions},
                      {"role":"user","content":final}
                     ]
                 # data['messages']=messages_2
