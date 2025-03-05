@@ -118,7 +118,7 @@ def process_text_with_api(groups, instructions,style):
                 # response = requests.post(API_URL, headers=headers, json=data)
                 # if response.status_code==200:
                     # final_text+=str(response.json()['choices'][0]['message']['content'])+' '
-                    final_text+=str(response.choices[0].message.content)
+                    final_text+=str(response.choices[0].message.content)+'\n\n'
                 else:
                     return "An error occurred: " + response.text
                     st.write("Errorrrr!!!!!!!!!!")
