@@ -3,6 +3,8 @@
 - Do not change or alter the meaning of the provided content.
 - The input text is to be edited for academic audience following formal American English. 
 - Retain original meaning of the text and make only moderate revisions. 
+- Do not eliminate or remove entire sentences during editing.
+- If an edit is performed on a certain amount of text, conserve the number of words of the text in the exact same part instead of adjusting the length somewhere else.
 - Keep the sentences concise and avoid wordiness and redundancy without eliminating details that may lead to information loss. 
 - Follow the instructions below for precise editing and strictly abide by it.
 Scope of Edit: Structural editing for language, grammar, and readability.
