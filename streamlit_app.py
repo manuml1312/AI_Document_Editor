@@ -104,12 +104,13 @@ def process_text_with_api(groups, instructions,style):
                 final=str(response.choices[0].message.content)
                 if str(style)=='Developmental':
                     messages_2 = [
-                    {"role":"assistant","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the word count,details and information."""},
+                    {"role":"assistant","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the word count,details and information.
+                    Return only the edited text and nothing else."""},
                      {"role":"user","content":final}
                     ]
                 if str(style) in ['Standard','ProofReading']:
                     messages_2 = [
-                    {"role":"assistant","content":instructions},
+                    {"role":"assistant","content":instructions+' Return only the edited text and nothing else.'},
                      {"role":"user","content":final}
                     ]
                 # data['messages']=messages_2
