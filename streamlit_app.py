@@ -11,7 +11,7 @@ import re
 # __import__('pysqlite3')
 # import sys
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-export HF_ENDPOINT=https://hf-mirror.com
+# export HF_ENDPOINT=https://hf-mirror.com
 
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
