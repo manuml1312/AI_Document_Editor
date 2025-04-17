@@ -148,8 +148,8 @@ def create_docx(text):
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
-# model = SentenceTransformer('sentence-transformers/all-MiniLM-L12-v2') 
-# nlp = spacy.load("en_core_web_md")
+model = SentenceTransformer('all-MiniLM-L6-v2') 
+nlp = spacy.load("en_core_web_md")
 
 
 # Define the path for instruction files
@@ -184,23 +184,23 @@ if st.button('Edit Text'):
     response=process_document(uploaded_file,options,report_features,edits,style)
     st.write(response)
     docx_file = create_docx(response)
-    # before_text=read_docx(uploaded_file)
-    # text=read_docx(uploaded_file)
-    # before_text="\n".join([t for t in text])
-    # after_text=response
-    # embeddings1 = model.encode(before_text, convert_to_tensor=True)
-    # embeddings2 = model.encode(after_text, convert_to_tensor=True)
-    # semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+    before_text=read_docx(uploaded_file)
+    text=read_docx(uploaded_file)
+    before_text="\n".join([t for t in text])
+    after_text=response
+    embeddings1 = model.encode(before_text, convert_to_tensor=True)
+    embeddings2 = model.encode(after_text, convert_to_tensor=True)
+    semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
     
     # Calculate word overlap ratio
-    # before_words = tokenize_text(before_text)
-    # after_words = tokenize_text(after_text)
-    # common_words = before_words.intersection(after_words)
-    # word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
+    before_words = tokenize_text(before_text)
+    after_words = tokenize_text(after_text)
+    common_words = before_words.intersection(after_words)
+    word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
     
     # Print results
-    # st.write("Semantic Similarity:", round(semantic_similarity, 2))
-    # st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
+    st.write("Semantic Similarity:", round(semantic_similarity, 2))
+    st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
     st.download_button(
         label="Download as DOCX",
         data=docx_file,
