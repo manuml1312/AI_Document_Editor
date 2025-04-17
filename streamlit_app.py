@@ -8,6 +8,7 @@ import io
 import nltk
 from sentence_transformers import SentenceTransformer, util
 import re
+
 # __import__('pysqlite3')
 # import sys
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
@@ -149,7 +150,7 @@ def create_docx(text):
 st.cache_data()
 nltk.download('punkt_tab')
 model = SentenceTransformer('all-MiniLM-L6-v2') 
-nlp = spacy.load("en_core_web_md")
+# nlp = spacy.load("en_core_web_md")
 
 
 # Define the path for instruction files
