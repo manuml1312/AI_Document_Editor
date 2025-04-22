@@ -6,7 +6,10 @@ import pickle
 import requests
 import io
 import nltk
-from sentence_transformers import SentenceTransformer, util
+# from sentence_transformers import SentenceTransformer, util
+from transformers import AutoTokenizer,AutoModel
+import torch
+from sklearn.metrics.pairwise import cosine_similarity
 import re
 
 # __import__('pysqlite3')
@@ -146,11 +149,18 @@ def create_docx(text):
     doc.save(buffer)
     buffer.seek(0)
     return buffer
+
+def get_embedding(sentence):
+    inputs = tokenizer(sentence, return_tensors='pt', truncation=True, padding=True)
+    outputs = model(**inputs)
+    return outputs.last_hidden_state.mean(dim=1).detach().numpy()
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
 try:
-    model = SentenceTransformer('all-MiniLM-L6-v2') 
+    tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+    model = AutoModel.from_pretrained("bert-base-uncased")
+    # model = SentenceTransformer('all-MiniLM-L6-v2') 
 except Exception as e:
     model = None
 # nlp = spacy.load("en_core_web_md")
@@ -193,9 +203,12 @@ if st.button('Edit Text'):
         text=read_docx(uploaded_file)
         before_text="\n".join([t for t in text])
         after_text=response
-        embeddings1 = model.encode(before_text, convert_to_tensor=True)
-        embeddings2 = model.encode(after_text, convert_to_tensor=True)
-        semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+        embeddings1 = get_embedding(before_text)
+        embeddings2 = get_embedding(after_text)
+        semantic_similarity = cosine_similarity(embeddings1, embeddings2)
+        # embeddings1 = model.encode(before_text, convert_to_tensor=True)
+        # embeddings2 = model.encode(after_text, convert_to_tensor=True)
+        # semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
         
         # Calculate word overlap ratio
         before_words = tokenize_text(before_text)
