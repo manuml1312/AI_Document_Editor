@@ -158,9 +158,10 @@ def get_embedding(sentence):
 st.cache_data()
 nltk.download('punkt_tab')
 try:
+    model='0'
     # tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
     # model = AutoModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-    model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2',token='False') 
+    # model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2',token='False') 
 except Exception as e:
     st.write(e)
     model = None
@@ -200,7 +201,7 @@ if st.button('Edit Text'):
     st.write(response)
     docx_file = create_docx(response)
     if model:
-        st.write("Got the model")
+        # st.write("Got the model")
         before_text=read_docx(uploaded_file)
         text=read_docx(uploaded_file)
         before_text="\n".join([t for t in text])
@@ -208,9 +209,9 @@ if st.button('Edit Text'):
         # embeddings1 = get_embedding(before_text)
         # embeddings2 = get_embedding(after_text)
         # semantic_similarity = cosine_similarity(embeddings1, embeddings2)
-        embeddings1 = model.encode(before_text, convert_to_tensor=True)
-        embeddings2 = model.encode(after_text, convert_to_tensor=True)
-        semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+        # embeddings1 = model.encode(before_text, convert_to_tensor=True)
+        # embeddings2 = model.encode(after_text, convert_to_tensor=True)
+        # semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
         
         # Calculate word overlap ratio
         before_words = tokenize_text(before_text)
@@ -219,7 +220,7 @@ if st.button('Edit Text'):
         word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
         
         # Print results
-        st.write("Semantic Similarity:", round(semantic_similarity, 2))
+        # st.write("Semantic Similarity:", round(semantic_similarity, 2))
         st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
     else:
         print("Error encountered")
