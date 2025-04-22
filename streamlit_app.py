@@ -8,7 +8,7 @@ import io
 import nltk
 from sentence_transformers import SentenceTransformer, util
 from transformers import AutoTokenizer,AutoModel
-import torch
+# import torch
 from sklearn.metrics.pairwise import cosine_similarity
 import re
 
