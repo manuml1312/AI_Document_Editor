@@ -180,7 +180,7 @@ edit_styles=['Standard','Developmental','ProofReading']
 style = st.selectbox("Select the type of editing", edit_styles)
 options=edit_config[style]
 
-uploaded_file=st.file_uploader("Upload the text document to process.",type=["docx","pdf","csv"],key='orig')
+uploaded_file=st.file_uploader("Upload the text document to process.",type=["docx"],key='orig')
 edits = st.multiselect('Select required features:',report_features)
 # max_tokens=st.number_input("Insert the maximum number of tokens")
 
