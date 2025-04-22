@@ -16,7 +16,7 @@ import re
 # import sys
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 # export HF_ENDPOINT=https://hf-mirror.com
-
+HF_TOKEN=st.serets.hf_token
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
 API_URL = 'https://api.openai.com/v1/chat/completions'
@@ -208,9 +208,9 @@ if st.button('Edit Text'):
         # embeddings1 = get_embedding(before_text)
         # embeddings2 = get_embedding(after_text)
         # semantic_similarity = cosine_similarity(embeddings1, embeddings2)
-        # embeddings1 = model.encode(before_text, convert_to_tensor=True)
-        # embeddings2 = model.encode(after_text, convert_to_tensor=True)
-        # semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+        embeddings1 = model.encode(before_text, convert_to_tensor=True)
+        embeddings2 = model.encode(after_text, convert_to_tensor=True)
+        semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
         
         # Calculate word overlap ratio
         before_words = tokenize_text(before_text)
@@ -219,7 +219,7 @@ if st.button('Edit Text'):
         word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
         
         # Print results
-        # st.write("Semantic Similarity:", round(semantic_similarity, 2))
+        st.write("Semantic Similarity:", round(semantic_similarity, 2))
         st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
     else:
         print("Error encountered")
