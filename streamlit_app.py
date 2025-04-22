@@ -88,7 +88,7 @@ def process_text_with_api(groups, instructions,style):
                   messages=messages, #max_completion_tokens=req_w
                   )
                 
-            """ Call the OpenAI API with the extracted text and instructions. """
+            """ The extracted text is being processed as per the instructions. """
             # headers = {
             #     'Content-Type': 'application/json',
             #     'Authorization': f'Bearer {API_KEY}'
@@ -157,13 +157,13 @@ def get_embedding(sentence):
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
-try:
-    tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-    model = AutoModel.from_pretrained("bert-base-uncased")
+# try:
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+model = AutoModel.from_pretrained("bert-base-uncased")
     # model = SentenceTransformer('all-MiniLM-L6-v2') 
-except Exception as e:
-    st.write(e)
-    model = None
+# except Exception as e:
+    # st.write(e)
+    # model = None
 # nlp = spacy.load("en_core_web_md")
 
 
