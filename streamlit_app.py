@@ -6,7 +6,7 @@ import pickle
 import requests
 import io
 import nltk
-from sentence_transformers import SentenceTransformer, util
+# from sentence_transformers import SentenceTransformer, util
 from transformers import AutoTokenizer,AutoModel
 import torch
 from sklearn.metrics.pairwise import cosine_similarity
@@ -160,7 +160,7 @@ nltk.download('punkt_tab')
 try:
     # tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     # model = AutoModel.from_pretrained("bert-base-uncased")
-    model = SentenceTransformer('all-MiniLM-L6-v2') 
+    # model = SentenceTransformer('all-MiniLM-L6-v2') 
 except Exception as e:
     st.write(e)
     model = None
