@@ -187,8 +187,8 @@ edits = st.multiselect('Select required features:',report_features)
 if st.button('Edit Text'):
     response=process_document(uploaded_file,options,report_features,edits,style)
     st.write(response)
+    docx_file = create_docx(response)
     if model:
-        docx_file = create_docx(response)
         before_text=read_docx(uploaded_file)
         text=read_docx(uploaded_file)
         before_text="\n".join([t for t in text])
@@ -206,6 +206,7 @@ if st.button('Edit Text'):
         # Print results
         st.write("Semantic Similarity:", round(semantic_similarity, 2))
         st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
+        
     st.download_button(
         label="Download as DOCX",
         data=docx_file,
