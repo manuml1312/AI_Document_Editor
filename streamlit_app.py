@@ -16,7 +16,7 @@ import re
 # import sys
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 # export HF_ENDPOINT=https://hf-mirror.com
-HF_TOKEN=st.serets.hf_token
+HF_TOKEN=st.secrets.hf_token
 # from openai import OpenAI
 API_KEY=st.secrets.api_key
 API_URL = 'https://api.openai.com/v1/chat/completions'
