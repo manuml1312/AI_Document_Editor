@@ -158,8 +158,8 @@ def get_embedding(sentence):
 st.cache_data()
 nltk.download('punkt_tab')
 try:
-    # tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-    # model = AutoModel.from_pretrained("bert-base-uncased")
+    tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
+    model = AutoModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
     # model = SentenceTransformer('all-MiniLM-L6-v2') 
 except Exception as e:
     st.write(e)
@@ -205,12 +205,12 @@ if st.button('Edit Text'):
         text=read_docx(uploaded_file)
         before_text="\n".join([t for t in text])
         after_text=response
-        # embeddings1 = get_embedding(before_text)
-        # embeddings2 = get_embedding(after_text)
-        # semantic_similarity = cosine_similarity(embeddings1, embeddings2)
-        embeddings1 = model.encode(before_text, convert_to_tensor=True)
-        embeddings2 = model.encode(after_text, convert_to_tensor=True)
-        semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+        embeddings1 = get_embedding(before_text)
+        embeddings2 = get_embedding(after_text)
+        semantic_similarity = cosine_similarity(embeddings1, embeddings2)
+        # embeddings1 = model.encode(before_text, convert_to_tensor=True)
+        # embeddings2 = model.encode(after_text, convert_to_tensor=True)
+        # semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
         
         # Calculate word overlap ratio
         before_words = tokenize_text(before_text)
