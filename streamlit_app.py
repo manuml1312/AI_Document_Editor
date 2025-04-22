@@ -157,13 +157,13 @@ def get_embedding(sentence):
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
-# try:
-# tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-# model = AutoModel.from_pretrained("bert-base-uncased")
-    # model = SentenceTransformer('all-MiniLM-L6-v2') 
-# except Exception as e:
-    # st.write(e)
-    # model = None
+try:
+    # tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+    # model = AutoModel.from_pretrained("bert-base-uncased")
+    model = SentenceTransformer('all-MiniLM-L6-v2') 
+except Exception as e:
+    st.write(e)
+    model = None
 # nlp = spacy.load("en_core_web_md")
 
 
