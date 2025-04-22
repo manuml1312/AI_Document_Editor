@@ -160,7 +160,7 @@ nltk.download('punkt_tab')
 try:
     # tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
     # model = AutoModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-    model = SentenceTransformer('all-MiniLM-L6-v2',token='False') 
+    model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2',token='False') 
 except Exception as e:
     st.write(e)
     model = None
