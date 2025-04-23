@@ -185,29 +185,35 @@ edits = st.multiselect('Select required features:',report_features)
 # max_tokens=st.number_input("Insert the maximum number of tokens")
 
 if st.button('Edit Text'):
-    response=process_document(uploaded_file,options,report_features,edits,style)
-    st.write(response)
-    docx_file = create_docx(response)
-    if model:
-        before_text=read_docx(uploaded_file)
-        after_text=response
-        embeddings1 = model.encode(before_text, convert_to_tensor=True)
-        embeddings2 = model.encode(after_text, convert_to_tensor=True)
-        semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+    with st.spinner("Good Edits take time...... ", show_time=True):
+        try:
+            response=process_document(uploaded_file,options,report_features,edits,style)
+            st.write(response)
+            docx_file = create_docx(response)
+            if model:
+                before_text=read_docx(uploaded_file)
+                after_text=response
+                embeddings1 = model.encode(before_text, convert_to_tensor=True)
+                embeddings2 = model.encode(after_text, convert_to_tensor=True)
+                semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+                
+                # Calculate word overlap ratio
+                before_words = tokenize_text(before_text)
+                after_words = tokenize_text(after_text)
+                common_words = before_words.intersection(after_words)
+                word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
+            
+                # Print results
+                st.write("Semantic Similarity:", round(semantic_similarity, 2))
+                st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
+                
+            st.download_button(
+                label="Download as DOCX",
+                data=docx_file,
+                file_name="output.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
         
-        # Calculate word overlap ratio
-        before_words = tokenize_text(before_text)
-        after_words = tokenize_text(after_text)
-        common_words = before_words.intersection(after_words)
-        word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
-        
-        # Print results
-        st.write("Semantic Similarity:", round(semantic_similarity, 2))
-        st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
-        
-    st.download_button(
-        label="Download as DOCX",
-        data=docx_file,
-        file_name="output.docx",
-        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    )
+        except Exception as e:
+            # st.break()
+            st.write(e)
