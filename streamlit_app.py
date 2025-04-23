@@ -189,8 +189,7 @@ if st.button('Edit Text'):
     st.write(response)
     docx_file = create_docx(response)
     if model:
-        text=read_docx(uploaded_file)
-        before_text="\n".join([t for t in text])
+        before_text=read_docx(uploaded_file)
         after_text=response
         embeddings1 = model.encode(before_text, convert_to_tensor=True)
         embeddings2 = model.encode(after_text, convert_to_tensor=True)
