@@ -174,10 +174,11 @@ edits = st.multiselect('Select required features:',report_features)
 if st.button('Edit Text'):
     text,response=process_document(uploaded_file,options,report_features,edits,style)
     st.write(response)
-    docx_file = create_docx(response) #for downloading output
+    if model:
+    before_text=read_docx(uploaded_file)
+    text=read_docx(uploaded_file)
     before_text="\n".join([t for t in text])
     after_text=response
-    if model:
         try:
             embeddings1 = model.encode(before_text, convert_to_tensor=True)
             embeddings2 = model.encode(after_text, convert_to_tensor=True)
