@@ -184,9 +184,9 @@ if st.button('Edit Text'):
             semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
             st.write("Semantic Similarity:", round(semantic_similarity, 2))
         except Exception as e:
-            st.write("Semantic Similarity Cannot be displayed)
+            st.write("Semantic Similarity Cannot be displayed")
     else:
-        st.write("No Model Detected, ")
+        st.write("No Model Detected")
             
     # Calculate word overlap ratio
     before_words = tokenize_text(before_text)
