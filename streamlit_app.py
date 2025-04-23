@@ -7,14 +7,10 @@ import requests
 import io
 import nltk
 from sentence_transformers import SentenceTransformer, util
-# from transformers import AutoTokenizer,AutoModel
-# import torch
-from sklearn.metrics.pairwise import cosine_similarity
 import re
-import torch
-import torch.nn.functional as F
 
-# HF_TOKEN=st.secrets.hf_token
+
+# from openai import OpenAI
 API_KEY=st.secrets.api_key
 API_URL = 'https://api.openai.com/v1/chat/completions'
 
@@ -78,29 +74,49 @@ def process_text_with_api(groups, instructions,style):
                 {"role": "assistant", "content": instructions},
                 {"role": "user", "content": groups[i]}
             ]
-
+            #req_w=int(round(len(groups[i].split())*5.5))
+            #f"""{req_w}"""
             response = client.chat.completions.create(
                   model="o1-mini",
                   messages=messages, #max_completion_tokens=req_w
                   )
                 
-            """ The extracted text is being processed as per the instructions. """
+            """ Call the OpenAI API with the extracted text and instructions. """
+            # headers = {
+            #     'Content-Type': 'application/json',
+            #     'Authorization': f'Bearer {API_KEY}'
+            # }
+            # data = {
+            #     'model': 'o1-mini',
+            #     'messages':messages,
+            #     'max_tokens': 16000,
+            #     'temperature': 0.75,
+            #     'top_p': 1,
+            #     'frequency_penalty': 0,
+            #     'presence_penalty': 0
+            # }
+            # response = requests.post(API_URL, headers=headers, json=data)
+            # if response.status_code == 200:
             if response.choices[0].message.content:
+                # final=str(response.json()['choices'][0]['message']['content'])+' '
                 final=str(response.choices[0].message.content)
                 if str(style)=='Developmental':
                     messages_2 = [
-                            {"role":"assistant","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the word count,details and information.
-                                Return only the edited text and nothing else."""},
-                             {"role":"user","content":final}
-                                ]
+                    {"role":"assistant","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the word count,details and information.
+                    Return only the edited text and nothing else."""},
+                     {"role":"user","content":final}
+                    ]
                 if str(style) in ['Standard','ProofReading']:
-                # else:
                     messages_2 = [
-                            {"role":"assistant","content":instructions+' Return only the edited text and nothing else.'},
-                             {"role":"user","content":final}
-                            ]
+                    {"role":"assistant","content":instructions+' Return only the edited text and nothing else.'},
+                     {"role":"user","content":final}
+                    ]
+                # data['messages']=messages_2
                 response=client.chat.completions.create(model='o1-mini',messages=messages_2) #,max_completion_tokens=16000)
                 if response.choices[0].message.content:
+                # response = requests.post(API_URL, headers=headers, json=data)
+                # if response.status_code==200:
+                    # final_text+=str(response.json()['choices'][0]['message']['content'])+' '
                     final_text+=str(response.choices[0].message.content)+'\n\n'
                 else:
                     return "An error occurred: " + response.text
@@ -127,10 +143,6 @@ def create_docx(text):
     buffer.seek(0)
     return buffer
 
-# def get_embedding(sentence):
-#     inputs = tokenizer(sentence, return_tensors='pt', truncation=True, padding=True)
-#     outputs = model(**inputs)
-#     return outputs.last_hidden_state.mean(dim=1).detach().numpy()
 
 def load_model():
     return SentenceTransformer('./allMiniLML6v2')
@@ -140,8 +152,9 @@ nltk.download('punkt_tab')
 try:
     model = load_model()
 except Exception as e:
-    st.write(e)
     model = None
+# nlp = spacy.load("en_core_web_md")
+
 
 # Define the path for instruction files
 edit_config = {
@@ -176,26 +189,22 @@ if st.button('Edit Text'):
     st.write(response)
     docx_file = create_docx(response)
     if model:
-        # before_text=read_docx(uploaded_file)
         text=read_docx(uploaded_file)
         before_text="\n".join([t for t in text])
         after_text=response
-        try:
-            embeddings1 = model.encode(before_text, convert_to_tensor=True)
-            embeddings2 = model.encode(after_text, convert_to_tensor=True)
-            semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
-            st.write("Semantic Similarity:", round(semantic_similarity, 2))
-        except Exception as e:
-            st.write("Semantic Similarity Cannot be displayed")
-    else:
-        st.write("No Model Detected")
-            
-    # Calculate word overlap ratio
-    before_words = tokenize_text(before_text)
-    after_words = tokenize_text(after_text)
-    common_words = before_words.intersection(after_words)
-    word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0        
-    st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
+        embeddings1 = model.encode(before_text, convert_to_tensor=True)
+        embeddings2 = model.encode(after_text, convert_to_tensor=True)
+        semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+        
+        # Calculate word overlap ratio
+        before_words = tokenize_text(before_text)
+        after_words = tokenize_text(after_text)
+        common_words = before_words.intersection(after_words)
+        word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
+        
+        # Print results
+        st.write("Semantic Similarity:", round(semantic_similarity, 2))
+        st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
         
     st.download_button(
         label="Download as DOCX",
