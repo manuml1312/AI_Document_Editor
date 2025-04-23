@@ -133,7 +133,7 @@ def create_docx(text):
 #     return outputs.last_hidden_state.mean(dim=1).detach().numpy()
 
 def load_model():
-    return SentenceTransformer('./models/all-MiniLM-L6-v2')
+    return SentenceTransformer('./allMiniLML6v2')
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
