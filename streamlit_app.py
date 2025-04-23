@@ -7,17 +7,13 @@ import requests
 import io
 import nltk
 from sentence_transformers import SentenceTransformer, util
-from transformers import AutoTokenizer,AutoModel
+# from transformers import AutoTokenizer,AutoModel
 # import torch
 from sklearn.metrics.pairwise import cosine_similarity
 import re
 
-# __import__('pysqlite3')
-# import sys
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-# export HF_ENDPOINT=https://hf-mirror.com
 
-HF_TOKEN=st.secrets.hf_token
+# HF_TOKEN=st.secrets.hf_token
 API_KEY=st.secrets.api_key
 API_URL = 'https://api.openai.com/v1/chat/completions'
 
@@ -81,49 +77,29 @@ def process_text_with_api(groups, instructions,style):
                 {"role": "assistant", "content": instructions},
                 {"role": "user", "content": groups[i]}
             ]
-            #req_w=int(round(len(groups[i].split())*5.5))
-            #f"""{req_w}"""
+
             response = client.chat.completions.create(
                   model="o1-mini",
                   messages=messages, #max_completion_tokens=req_w
                   )
                 
             """ The extracted text is being processed as per the instructions. """
-            # headers = {
-            #     'Content-Type': 'application/json',
-            #     'Authorization': f'Bearer {API_KEY}'
-            # }
-            # data = {
-            #     'model': 'o1-mini',
-            #     'messages':messages,
-            #     'max_tokens': 16000,
-            #     'temperature': 0.75,
-            #     'top_p': 1,
-            #     'frequency_penalty': 0,
-            #     'presence_penalty': 0
-            # }
-            # response = requests.post(API_URL, headers=headers, json=data)
-            # if response.status_code == 200:
             if response.choices[0].message.content:
-                # final=str(response.json()['choices'][0]['message']['content'])+' '
                 final=str(response.choices[0].message.content)
                 if str(style)=='Developmental':
                     messages_2 = [
-                    {"role":"assistant","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the word count,details and information.
-                    Return only the edited text and nothing else."""},
-                     {"role":"user","content":final}
-                    ]
-                if str(style) in ['Standard','ProofReading']:
+                            {"role":"assistant","content":"""Given text is already an edited version of a research paper.Increase the level of edit intervention while conserving the word count,details and information.
+                                Return only the edited text and nothing else."""},
+                             {"role":"user","content":final}
+                                ]
+                # if str(style) in ['Standard','ProofReading']:
+                else:
                     messages_2 = [
-                    {"role":"assistant","content":instructions+' Return only the edited text and nothing else.'},
-                     {"role":"user","content":final}
-                    ]
-                # data['messages']=messages_2
+                            {"role":"assistant","content":instructions+' Return only the edited text and nothing else.'},
+                             {"role":"user","content":final}
+                            ]
                 response=client.chat.completions.create(model='o1-mini',messages=messages_2) #,max_completion_tokens=16000)
                 if response.choices[0].message.content:
-                # response = requests.post(API_URL, headers=headers, json=data)
-                # if response.status_code==200:
-                    # final_text+=str(response.json()['choices'][0]['message']['content'])+' '
                     final_text+=str(response.choices[0].message.content)+'\n\n'
                 else:
                     return "An error occurred: " + response.text
@@ -139,7 +115,7 @@ def process_document(filename, options,report_features,edits,style):
     groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return process_text_with_api(groups, combined_text,style) 
+    return text,process_text_with_api(groups, combined_text,style) 
 
 def create_docx(text):
     doc = Document()
@@ -150,18 +126,17 @@ def create_docx(text):
     buffer.seek(0)
     return buffer
 
-def get_embedding(sentence):
-    inputs = tokenizer(sentence, return_tensors='pt', truncation=True, padding=True)
-    outputs = model(**inputs)
-    return outputs.last_hidden_state.mean(dim=1).detach().numpy()
+# def get_embedding(sentence):
+#     inputs = tokenizer(sentence, return_tensors='pt', truncation=True, padding=True)
+#     outputs = model(**inputs)
+#     return outputs.last_hidden_state.mean(dim=1).detach().numpy()
+
+
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
 try:
-    model='0'
-    # tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-    # model = AutoModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-    # model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2',token='False') 
+    model = SentenceTransformer('./models//all-MiniLM-L6-v2') 
 except Exception as e:
     st.write(e)
     model = None
@@ -197,33 +172,28 @@ edits = st.multiselect('Select required features:',report_features)
 # max_tokens=st.number_input("Insert the maximum number of tokens")
 
 if st.button('Edit Text'):
-    response=process_document(uploaded_file,options,report_features,edits,style)
+    text,response=process_document(uploaded_file,options,report_features,edits,style)
     st.write(response)
-    docx_file = create_docx(response)
+    docx_file = create_docx(response) #for downloading output
+    before_text="\n".join([t for t in text])
+    after_text=response
     if model:
-        # st.write("Got the model")
-        before_text=read_docx(uploaded_file)
-        text=read_docx(uploaded_file)
-        before_text="\n".join([t for t in text])
-        after_text=response
-        # embeddings1 = get_embedding(before_text)
-        # embeddings2 = get_embedding(after_text)
-        # semantic_similarity = cosine_similarity(embeddings1, embeddings2)
-        # embeddings1 = model.encode(before_text, convert_to_tensor=True)
-        # embeddings2 = model.encode(after_text, convert_to_tensor=True)
-        # semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
-        
-        # Calculate word overlap ratio
-        before_words = tokenize_text(before_text)
-        after_words = tokenize_text(after_text)
-        common_words = before_words.intersection(after_words)
-        word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0
-        
-        # Print results
-        # st.write("Semantic Similarity:", round(semantic_similarity, 2))
-        st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
+        try:
+            embeddings1 = model.encode(before_text, convert_to_tensor=True)
+            embeddings2 = model.encode(after_text, convert_to_tensor=True)
+            semantic_similarity = util.pytorch_cos_sim(embeddings1, embeddings2).item()
+            st.write("Semantic Similarity:", round(semantic_similarity, 2))
+        except Exception as e:
+            st.write("Semantic Similarity Cannot be displayed)
     else:
-        print("Error encountered")
+        st.write("No Model Detected, ")
+            
+    # Calculate word overlap ratio
+    before_words = tokenize_text(before_text)
+    after_words = tokenize_text(after_text)
+    common_words = before_words.intersection(after_words)
+    word_overlap_ratio = len(common_words) / len(before_words) if before_words else 0        
+    st.write("Word Retention Ratio:", round(word_overlap_ratio * 100, 2), "%")
         
     st.download_button(
         label="Download as DOCX",
