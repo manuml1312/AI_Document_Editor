@@ -132,7 +132,7 @@ def create_docx(text):
 #     return outputs.last_hidden_state.mean(dim=1).detach().numpy()
 
 def load_model():
-    return SentenceTransformer('./text_edit/models/all-MiniLM-L6-v2')
+    return SentenceTransformer('models/all-MiniLM-L6-v2')
 
 #################################################################
 st.cache_data()
