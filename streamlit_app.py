@@ -131,17 +131,17 @@ def create_docx(text):
 #     outputs = model(**inputs)
 #     return outputs.last_hidden_state.mean(dim=1).detach().numpy()
 
+def load_model():
+    return SentenceTransformer('./text_edit/models/all-MiniLM-L6-v2')
 
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
 try:
-    model = SentenceTransformer('./models/all-MiniLM-L6-v2/') 
+    model = load_model()
 except Exception as e:
     st.write(e)
     model = None
-# nlp = spacy.load("en_core_web_md")
-
 
 # Define the path for instruction files
 edit_config = {
