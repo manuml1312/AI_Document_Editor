@@ -93,8 +93,8 @@ def process_text_with_api(groups, instructions,style):
                                 Return only the edited text and nothing else."""},
                              {"role":"user","content":final}
                                 ]
-                # if str(style) in ['Standard','ProofReading']:
-                else:
+                if str(style) in ['Standard','ProofReading']:
+                # else:
                     messages_2 = [
                             {"role":"assistant","content":instructions+' Return only the edited text and nothing else.'},
                              {"role":"user","content":final}
@@ -116,7 +116,7 @@ def process_document(filename, options,report_features,edits,style):
     groups = text_break(text)
     instructions = load_instructions(options)
     combined_text = instructions + " " + " ".join([report_features[feature] for feature in edits])
-    return text,process_text_with_api(groups, combined_text,style) 
+    return process_text_with_api(groups, combined_text,style) 
 
 def create_docx(text):
     doc = Document()
@@ -172,7 +172,7 @@ edits = st.multiselect('Select required features:',report_features)
 # max_tokens=st.number_input("Insert the maximum number of tokens")
 
 if st.button('Edit Text'):
-    text,response=process_document(uploaded_file,options,report_features,edits,style)
+    response=process_document(uploaded_file,options,report_features,edits,style)
     st.write(response)
     docx_file = create_docx(response)
     if model:
