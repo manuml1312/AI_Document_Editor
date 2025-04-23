@@ -136,7 +136,7 @@ def create_docx(text):
 st.cache_data()
 nltk.download('punkt_tab')
 try:
-    model = SentenceTransformer('./models/all-MiniLM-L6-v2') 
+    model = SentenceTransformer('./models/all-MiniLM-L6-v2/') 
 except Exception as e:
     st.write(e)
     model = None
