@@ -11,7 +11,8 @@ from sentence_transformers import SentenceTransformer, util
 # import torch
 from sklearn.metrics.pairwise import cosine_similarity
 import re
-
+import torch
+import torch.nn.functional as F
 
 # HF_TOKEN=st.secrets.hf_token
 API_KEY=st.secrets.api_key
@@ -132,8 +133,7 @@ def create_docx(text):
 #     return outputs.last_hidden_state.mean(dim=1).detach().numpy()
 
 def load_model():
-    return SentenceTransformer('models/all-MiniLM-L6-v2')
-
+    return SentenceTransformer('./models/all-MiniLM-L6-v2')
 #################################################################
 st.cache_data()
 nltk.download('punkt_tab')
