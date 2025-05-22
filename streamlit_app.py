@@ -185,7 +185,7 @@ edits = st.multiselect('Select required features:',report_features)
 # max_tokens=st.number_input("Insert the maximum number of tokens")
 
 if st.button('Edit Text'):
-    with st.spinner("Good Edits take time...... ")#, show_time=True):
+    with st.spinner("Good Edits take time...... "):#, show_time=True):
         try:
             response=process_document(uploaded_file,options,report_features,edits,style)
             st.write(response)
