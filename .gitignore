@@ -8,6 +8,8 @@ __pycache__/
 # C extensions
 *.so
 
+code_agniplace_og.py
+
 # Distribution / packaging
 .Python
 build/
