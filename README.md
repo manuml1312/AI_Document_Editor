@@ -1,4 +1,4 @@
-#Intelligent Document Editor
+# Intelligent Document Editor
 
 
 A simple Streamlit app that can read and edit documents on 3 different levels. Standard Editing, Developmental Editing and ProofRead Editing.
