@@ -1,4 +1,4 @@
-# AI Document Editor
+# GenAI + AgenticAI Document Editor
 
 This project is a powerful research paper/document editor that leverages AI models (OpenAI or similar) to edit and enhance DOCX (and optionally PDF/CSV) files, following user-specified instructions and styles. The application is built using Streamlit for the interface and supports advanced editing workflows.
 
