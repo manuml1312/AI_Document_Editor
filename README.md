@@ -42,26 +42,61 @@ This method interacts directly with the OpenAI API. The uploaded document is spl
 
 ### Flow for Approach 1
 
-1. **User selects edit style, uploads DOCX, and chooses features.**
-2. **On 'Edit Text' button click:**
-   - Read the DOCX file and extract text.
-   - Split text into smaller groups for processing.
-   - Load the corresponding editing instructions and combine with feature prompts.
-   - For each group:
-     - Send the text and instructions to the OpenAI API.
-     - (For "Developmental" style, apply further processing.)
-     - Aggregate all responses into the final edited text.
-3. **Display Results:**
-   - Show the edited text in the app.
-   - If enabled, compute and display semantic similarity and word retention ratio.
-   - Provide a download button for the edited DOCX.
+<details>
+<summary>Click to show ASCII flow</summary>
 
-**Advantages:**  
-- Simple and straightforward.
-- Fewer dependencies.
-
-**Disadvantages:**  
-- Less modular; harder to scale for multi-agent or multi-step workflows.
+```
+┌───────────────────────────┐
+│   User Interface (Streamlit)  
+└───────┬───────────────────┘
+        │
+        │
+        ▼
+┌───────────────────────────┐
+│ User selects edit style   │
+│ User uploads .docx file   │
+│ User selects features     │
+└───────┬───────────────────┘
+        │
+        │
+        ▼
+┌─────────────────────────────┐
+│ User clicks "Edit Text"     │
+└───────┬─────────────────────┘
+        │
+        ▼
+┌───────────────────────────────┐
+│ process_document()            │
+│ - Read DOCX                   │
+│ - Break text into groups      │
+│ - Load instructions           │
+│ - Combine features & instr.   │
+└───────┬───────────────────────┘
+        │
+        ▼
+┌──────────────────────────────────────┐
+│ process_text_with_api()              │
+│ - For each text group:               │
+│   - Send to OpenAI API               │
+│   - Post-process response with style │
+└───────┬──────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────┐
+│ Aggregate all responses     │
+│ Return final edited text    │
+└───────┬─────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│ Show output in Streamlit:                   │
+│ - Display response                          │
+│ - (If model loaded) Calculate similarity &  │
+│   word retention                            │
+│ - Download edited DOCX                      │
+└─────────────────────────────────────────────┘
+```
+</details>
 
 ---
 
@@ -72,30 +107,65 @@ This approach uses the CrewAI framework, which allows defining agents, tasks, an
 
 ### Flow for Approach 2
 
-1. **User selects edit style, uploads DOCX/PDF/CSV, and chooses features.**
-2. **On 'Edit Text' button click:**
-   - Read and extract the document text.
-   - Split text into manageable groups.
-   - Load editing instructions and combine with selected feature prompts.
-   - For each group:
-     - Create a dedicated CrewAI agent with the desired role and context.
-     - Assign an editing task to the agent.
-     - Launch a Crew (a managed set of agents/tasks) to process the group.
-     - Collect the agent's output.
-   - Aggregate all group outputs into the final edited text.
-3. **Display Results:**
-   - Show the edited text in the app.
-   - Compute and display semantic similarity and word retention ratio.
-   - Provide a download button for the edited DOCX.
+<details>
+<summary>Click to show ASCII flow</summary>
 
-**Advantages:**  
-- Highly modular, enabling future expansion (e.g., multi-agent collaboration, complex workflows).
-- Clear separation of roles and tasks.
-- Easier integration with other CrewAI-based features.
-
-**Disadvantages:**  
-- More dependencies and setup required.
-- Slightly more complex codebase.
+```
+┌─────────────────────────────┐
+│ Streamlit User Interface    │
+└────────────┬────────────────┘
+             │
+             ▼
+┌─────────────────────────────┐
+│ User selects:               │
+│ - Edit style                │
+│ - Uploads DOCX/PDF/CSV      │
+│ - Features to include       │
+└────────────┬────────────────┘
+             │
+             ▼
+┌─────────────────────────────┐
+│ On "Edit Text" Button       │
+└────────────┬────────────────┘
+             ▼
+┌──────────────────────────────────────────┐
+│ process_document()                       │
+│ - Read docx file                         │
+│ - Text break (split into groups)         │
+│ - Load instructions based on style       │
+│ - Collect feature instructions           │
+│ - Combine instructions                   │
+└────────────┬─────────────────────────────┘
+             ▼
+┌──────────────────────────────────────────┐
+│ process_text_with_api()                  │
+│ For each text group:                     │
+│   ├─ Create CrewAI LLM Agent             │
+│   ├─ Create editing Task                 │
+│   ├─ Create Crew, assign task            │
+│   ├─ Kick off Crew to edit group         │
+│   └─ Collect result into output text     │
+└────────────┬─────────────────────────────┘
+             ▼
+┌─────────────────────────────┐
+│ Aggregate edited text groups│
+│ to form final output        │
+└────────────┬────────────────┘
+             ▼
+┌──────────────────────────────┐
+│ Calculate Similarity & Ratio │
+│ - Semantic similarity        │
+│ - Word retention             │
+└────────────┬─────────────────┘
+             ▼
+┌──────────────────────────────┐
+│ Show output in Streamlit:    │
+│ - Display edited text        │
+│ - Show similarity, retention │
+│ - Download as DOCX           │
+└──────────────────────────────┘
+```
+</details>
 
 ---
 
